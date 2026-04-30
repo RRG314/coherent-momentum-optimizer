@@ -1,0 +1,14 @@
+optimizer,baseline,wins,two_x
+coherent_momentum_optimizer,adamw,7,2
+coherent_momentum_optimizer,rmsprop,5,0
+coherent_momentum_optimizer,sgd_momentum,5,0
+coherent_momentum_optimizer,coherent_momentum_real_baseline,8,2
+coherent_momentum_optimizer,coherent_direction_reference,7,4
+coherent_momentum_optimizer,topological_adam,7,3
+coherent_momentum_optimizer_improved,adamw,7,3
+coherent_momentum_optimizer_improved,rmsprop,7,0
+coherent_momentum_optimizer_improved,sgd_momentum,5,0
+coherent_momentum_optimizer_improved,coherent_momentum_real_baseline,9,3
+coherent_momentum_optimizer_improved,coherent_direction_reference,7,6
+coherent_momentum_optimizer_improved,topological_adam,7,3
+coherent_momentum_optimizer_improved,coherent_momentum_optimizer,8,3

@@ -7,7 +7,7 @@ Coherent Momentum Optimizer is a specialist optimizer for training regimes where
 
 ## Benchmark Scope
 - Tasks: oscillatory_valley, direction_reversal_objective, small_batch_instability
-- Optimizers: magneto_hamiltonian_adam, magneto_hamiltonian_adam_improved, sgd, sgd_momentum, rmsprop, adam, adamw, real_hamiltonian_adam, magneto_adam
+- Optimizers: coherent_momentum_optimizer, coherent_momentum_optimizer_improved, sgd, sgd_momentum, rmsprop, adam, adamw, coherent_momentum_real_baseline, coherent_direction_reference
 - Skipped optional optimizers: none
 
 ## Best By Task

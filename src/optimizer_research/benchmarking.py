@@ -398,11 +398,11 @@ def _train_single_run(
         "mean_coherence_score": _mean_trace_metric(step_rows, "coherence_score"),
         "mean_conflict_score": _mean_trace_metric(step_rows, "conflict_score"),
         "mean_conflict_gate": _mean_trace_metric(step_rows, "conflict_gate"),
-        "mean_magneto_activation": _mean_trace_metric(step_rows, "magneto_activation"),
+        "mean_coherence_activation": _mean_trace_metric(step_rows, "coherence_activation"),
         "mean_stable_gate": _mean_trace_metric(step_rows, "stable_gate"),
         "mean_field_strength": _mean_trace_metric(step_rows, "field_strength"),
-        "mean_magneto_projection_strength": _mean_trace_metric(step_rows, "magneto_projection_strength"),
-        "mean_magneto_friction_multiplier": _mean_trace_metric(step_rows, "magneto_friction_multiplier"),
+        "mean_coherence_projection_strength": _mean_trace_metric(step_rows, "coherence_projection_strength"),
+        "mean_coherence_friction_multiplier": _mean_trace_metric(step_rows, "coherence_friction_multiplier"),
         "mean_soft_conflict_correction": _mean_trace_metric(step_rows, "soft_conflict_correction"),
         "mean_recovery_score": _mean_trace_metric(step_rows, "recovery_score"),
         "mean_direction_coherence": _mean_trace_metric(step_rows, "direction_coherence"),
@@ -470,7 +470,7 @@ def run_smoke_suite(config: dict[str, Any]) -> pd.DataFrame:
     optimizers = list(
         config.get(
             "smoke_optimizers",
-            ["adamw", "topological_adam", "sds_adam", "magneto_adam", "thermodynamic_adam", "diffusion_adam", "hamiltonian_adam", "uncertainty_adam"],
+            ["adamw", "topological_adam", "sds_adam", "coherent_direction_reference", "thermodynamic_adam", "diffusion_adam", "coherent_momentum_physical_baseline", "uncertainty_adam"],
         )
     )
 
@@ -674,9 +674,9 @@ def _build_ablation_variants() -> dict[str, dict[str, dict[str, Any]]]:
             "no_entropy_coupling": {"entropy_weight": 0.0},
             "global_only": {},
         },
-        "magneto_adam": {
+        "coherent_direction_reference": {
             "base": {},
-            "neutral_adamw_equivalent": neutral["magneto_adam"],
+            "neutral_adamw_equivalent": neutral["coherent_direction_reference"],
             "no_alignment_control": {"alignment_strength": 0.0},
             "no_rotation_penalty": {"rotation_penalty": 0.0},
             "global_only": {"layerwise_mode": False, "global_mode": True},
@@ -698,9 +698,9 @@ def _build_ablation_variants() -> dict[str, dict[str, dict[str, Any]]]:
             "no_aligned_noise": {"aligned_noise_weight": 0.0},
             "global_only": {},
         },
-        "hamiltonian_adam": {
+        "coherent_momentum_physical_baseline": {
             "base": {},
-            "neutral_adamw_equivalent": neutral["hamiltonian_adam"],
+            "neutral_adamw_equivalent": neutral["coherent_momentum_physical_baseline"],
             "no_energy_correction": {"energy_correction_strength": 0.0},
             "no_oscillation_damping": {"oscillation_damping": 0.0},
             "no_friction": {"friction": 0.0},

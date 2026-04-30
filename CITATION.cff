@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-title: "Magneto-Hamiltonian Adam"
+title: "Coherent Momentum Adam"
 message: "If you use this optimizer or its benchmark artifacts, please cite the repository and identify the exact mode and baseline comparison."
 type: software
 authors:
@@ -9,7 +9,7 @@ license: "Proprietary"
 version: "0.1.0"
 date-released: "2026-04-29"
 abstract: >-
-  Research repository for MagnetoHamiltonianAdam and its real Hamiltonian base,
+  Research repository for CoherentMomentumOptimizer and its real Hamiltonian base,
   with accepted benchmark artifacts, Hamiltonian energy tests, and
   reproducibility scripts.
 keywords:

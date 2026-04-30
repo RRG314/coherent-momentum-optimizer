@@ -3,9 +3,9 @@ requires = ["setuptools>=69", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "magneto-hamiltonian-adam"
+name = "coherent-momentum-optimizer"
 version = "0.1.0"
-description = "Hamiltonian optimizer family with the Magneto-Hamiltonian directional coherence branch."
+description = "Hamiltonian optimizer family with the Coherent Momentum directional coherence branch."
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [{ name = "Steven Reid" }]

@@ -14,7 +14,7 @@ That is different from the main baseline families in this repository:
 - `SGD+momentum` smooths direction across time.
 - `RMSProp` rescales magnitude using squared-gradient history.
 - `AdamW` combines momentum with adaptive magnitude scaling and decoupled weight decay.
-- `HamiltonianAdamReal` turns the adaptive force into a position-momentum system with mass, friction, and energy bookkeeping.
+- `CoherentMomentumRealBaseline` turns the adaptive force into a position-momentum system with mass, friction, and energy bookkeeping.
 - `CoherentMomentumOptimizer` inherits the real Hamiltonian base and then adds bounded directional-coherence control on top of it.
 
 ## Versus AdamW
@@ -41,19 +41,19 @@ The difference is that momentum uses the same smoothing mechanism all the time. 
 
 In other words, `SGD+momentum` assumes temporal smoothing is enough. CMO tests whether extra directional control helps when smoothing alone is not enough.
 
-## Versus HamiltonianAdamReal
+## Versus CoherentMomentumRealBaseline
 
 This comparison matters the most conceptually.
 
-`HamiltonianAdamReal` is the baseline that makes the coherent-momentum story meaningful. It already exposes position-momentum style dynamics, inverse mass, friction, energy correction, and optional leapfrog-style updates. Without that base, the public optimizer would be harder to distinguish from “Adam plus a few gates.”
+`CoherentMomentumRealBaseline` is the baseline that makes the coherent-momentum story meaningful. It already exposes position-momentum style dynamics, inverse mass, friction, energy correction, and optional leapfrog-style updates. Without that base, the public optimizer would be harder to distinguish from “Adam plus a few gates.”
 
-CMO keeps that Hamiltonian base intact and adds a bounded control layer. That layer is the actual experiment. If CMO cannot beat `HamiltonianAdamReal` in unstable-direction regimes, then the coherence controller is not earning its keep.
+CMO keeps that Hamiltonian base intact and adds a bounded control layer. That layer is the actual experiment. If CMO cannot beat `CoherentMomentumRealBaseline` in unstable-direction regimes, then the coherence controller is not earning its keep.
 
-## Versus MagnetoAdam
+## Versus CoherentDirectionReferenceOptimizer
 
-`MagnetoAdam` is an internal repository baseline that isolates directional-coherence control without the full Hamiltonian machinery. It is useful because it tells you whether the repo’s directional signals help on their own or only help once they are attached to the stronger physical base.
+`CoherentDirectionReferenceOptimizer` is an internal repository baseline that isolates directional-coherence control without the full Hamiltonian machinery. It is useful because it tells you whether the repo’s directional signals help on their own or only help once they are attached to the stronger physical base.
 
-If `MagnetoHamiltonianAdam` beats `MagnetoAdam`, that suggests the coherent controller is benefiting from the real Hamiltonian substrate rather than merely duplicating a softer Adam-like rule.
+If `CoherentMomentumOptimizer` beats `CoherentDirectionReferenceOptimizer`, that suggests the coherent controller is benefiting from the real Hamiltonian substrate rather than merely duplicating a softer Adam-like rule.
 
 ## Versus SAM, ASAM, and Other Stability-Oriented Methods
 

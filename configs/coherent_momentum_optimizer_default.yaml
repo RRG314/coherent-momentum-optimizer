@@ -1,0 +1,27 @@
+output_dir: reports/coherent_momentum_optimizer
+device: cpu
+seeds: [11, 29, 47]
+use_tuning_results: true
+benchmark_epoch_scale: 0.85
+optimizers:
+  - coherent_momentum_optimizer
+  - coherent_momentum_real_baseline
+  - coherent_direction_reference
+  - coherent_momentum_physical_baseline
+  - adamw
+  - rmsprop
+  - sgd_momentum
+  - lion
+  - topological_adam
+benchmark_tasks:
+  - breast_cancer_mlp
+  - circles_mlp
+  - moons_mlp
+  - wine_mlp
+  - label_noise_breast_cancer
+  - oscillatory_valley
+  - rosenbrock_valley
+  - saddle_objective
+  - small_batch_instability
+  - conflicting_batches_classification
+  - direction_reversal_objective

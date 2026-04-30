@@ -35,7 +35,7 @@ if __name__ == "__main__":
     device = resolve_device("auto")
     task_name = "direction_reversal_objective"
     optimizers = [
-        "magneto_hamiltonian_adam_improved",
+        "coherent_momentum_optimizer_improved",
         "adamw",
         "rmsprop",
         "sgd_momentum",
@@ -82,7 +82,7 @@ if __name__ == "__main__":
     plt.close()
 
     plt.figure(figsize=(8, 4))
-    for optimizer_name in [name for name in optimizers if "magneto" in name or name in {"adamw", "rmsprop"}]:
+    for optimizer_name in [name for name in optimizers if "coherence" in name or name in {"adamw", "rmsprop"}]:
         subset = trace_frame[(trace_frame["optimizer"] == optimizer_name) & (trace_frame["event"] == "train")]
         if subset.empty or "grad_momentum_cosine" not in subset.columns:
             continue
@@ -97,7 +97,7 @@ if __name__ == "__main__":
     plt.close()
 
     plt.figure(figsize=(8, 4))
-    for optimizer_name in [name for name in optimizers if "magneto" in name or name in {"adamw", "rmsprop"}]:
+    for optimizer_name in [name for name in optimizers if "coherence" in name or name in {"adamw", "rmsprop"}]:
         subset = trace_frame[(trace_frame["optimizer"] == optimizer_name) & (trace_frame["event"] == "train")]
         if subset.empty or "rotation_score" not in subset.columns:
             continue

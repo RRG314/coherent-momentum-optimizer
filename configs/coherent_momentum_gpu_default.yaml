@@ -1,0 +1,27 @@
+output_dir: reports/coherent_momentum_gpu
+device: cpu
+seeds: [11, 29, 47]
+tuning_seeds: [11]
+search_budget: 1
+optimizers:
+  - coherent_momentum_optimizer
+  - coherent_momentum_optimizer_improved
+  - coherent_momentum_real_baseline
+  - coherent_direction_reference
+  - adamw
+  - rmsprop
+  - sgd_momentum
+tuning_tasks:
+  - breast_cancer_mlp
+  - conflicting_batches_classification
+  - digits_cnn
+  - oscillatory_valley
+benchmark_tasks:
+  - breast_cancer_mlp
+  - wine_mlp
+  - digits_cnn
+  - conflicting_batches_classification
+  - oscillatory_valley
+tuning_epoch_scale: 0.45
+benchmark_epoch_scale: 0.7
+use_tuning_results: true

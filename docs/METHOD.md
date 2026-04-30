@@ -4,13 +4,13 @@ References for the optimizer families and theory mentioned here are collected in
 
 ## Core Principle
 
-`MagnetoHamiltonianAdam`, and therefore the public alias `CoherentMomentumOptimizer`, is built around a narrow question: when the current update direction is unstable, can a bounded directional controller help more than simply rescaling magnitude?
+`CoherentMomentumOptimizer`, and therefore the public alias `CoherentMomentumOptimizer`, is built around a narrow question: when the current update direction is unstable, can a bounded directional controller help more than simply rescaling magnitude?
 
 That is the point of departure from ordinary Adam-family framing. The implementation does not start by claiming a new universal adaptive preconditioner. Instead, it starts from a real Hamiltonian base optimizer and then asks whether explicit directional reliability signals can improve that base in oscillatory or reversal-heavy regimes.
 
 ## Real Hamiltonian Base
 
-The underlying base is `HamiltonianAdamReal`. It keeps state that is meant to be interpreted as actual optimizer dynamics rather than only as bookkeeping:
+The underlying base is `CoherentMomentumRealBaseline`. It keeps state that is meant to be interpreted as actual optimizer dynamics rather than only as bookkeeping:
 
 - momentum
 - inverse mass
@@ -23,7 +23,7 @@ The practical consequence is that the optimizer already has a physical notion of
 
 ## Directional Signals
 
-On top of that base, the magneto layer computes directional observables from the current gradient, the current Hamiltonian momentum, the previous gradient, the previous update, and the current force direction implied by the inverse mass.
+On top of that base, the coherence layer computes directional observables from the current gradient, the current Hamiltonian momentum, the previous gradient, the previous update, and the current force direction implied by the inverse mass.
 
 The implementation specifically tracks quantities such as:
 
@@ -39,7 +39,7 @@ These quantities are not treated as decoration. They are the input variables for
 
 ## Bounded Control Layer
 
-The magneto layer is a bounded controller, not an unrestricted rewrite of the step.
+The coherence layer is a bounded controller, not an unrestricted rewrite of the step.
 
 In the current stable implementation, those directional signals are used to produce:
 
@@ -51,7 +51,7 @@ Those controls are clamped to limited ranges. That design choice matters. It mea
 
 ## Improved Branch
 
-`MagnetoHamiltonianAdamImproved` keeps the same conceptual structure but changes how the controller is executed.
+`CoherentMomentumOptimizerImproved` keeps the same conceptual structure but changes how the controller is executed.
 
 The main engineering differences are:
 
@@ -64,6 +64,6 @@ This improved branch is therefore best interpreted as a device-safe and preset-a
 
 ## Why The Branch Exists
 
-`HamiltonianAdamReal` is the cleaner baseline. The coherent-momentum branch exists only because the repo is testing whether a real gain appears when the direction itself becomes unreliable. If those gains do not appear, then the extra controller logic is not justified.
+`CoherentMomentumRealBaseline` is the cleaner baseline. The coherent-momentum branch exists only because the repo is testing whether a real gain appears when the direction itself becomes unreliable. If those gains do not appear, then the extra controller logic is not justified.
 
 That is also why the public docs in this repo keep emphasizing a narrow claim. The coherent-momentum layer earns its place only when directional instability is the real problem.

@@ -19,8 +19,8 @@ benchmark_tasks:
   - cifar10_subset_resnetlike
 tuning_tasks: []
 optimizers:
-  - magneto_hamiltonian_adam
-  - magneto_hamiltonian_adam_improved
+  - coherent_momentum_optimizer
+  - coherent_momentum_optimizer_improved
   - sgd_momentum
   - rmsprop
   - adamw

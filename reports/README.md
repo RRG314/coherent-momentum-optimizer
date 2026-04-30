@@ -6,13 +6,13 @@ When a report mentions `AdamW`, `RMSProp`, `SGD+momentum`, `Lion`, `Muon`, `SAM`
 
 ## Accepted Mainline Report
 
-- `reports/accepted_magneto_hamiltonian/`
+- `reports/accepted_coherent_momentum/`
 
-This is the accepted CPU-oriented historical benchmark line for the stable Magneto-Hamiltonian branch and its comparison baselines.
+This is the accepted CPU-oriented historical benchmark line for the stable Coherent Momentum branch and its comparison baselines.
 
 ## GPU and Improved-Branch Report
 
-- `reports/magneto_gpu/`
+- `reports/coherent_momentum_gpu/`
 
 This directory contains the GPU-capability audit, the improved branch comparisons, device/runtime statistics, and the broader specialist benchmark slices.
 
@@ -36,7 +36,7 @@ This is a small reproducible example showing one unstable training regime and th
 
 ## Real Hamiltonian Reference
 
-- `reports/reference_real_hamiltonian/`
+- `reports/reference_real_baseline/`
 
 This is the reference report for the real Hamiltonian baseline used throughout the comparison suites.
 

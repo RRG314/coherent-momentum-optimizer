@@ -73,11 +73,11 @@ def aggregate_results(frame: pd.DataFrame) -> pd.DataFrame:
         "mean_coherence_score": "mean_coherence_score",
         "mean_conflict_score": "mean_conflict_score",
         "mean_conflict_gate": "mean_conflict_gate",
-        "mean_magneto_activation": "mean_magneto_activation",
+        "mean_coherence_activation": "mean_coherence_activation",
         "mean_stable_gate": "mean_stable_gate",
         "mean_field_strength": "mean_field_strength",
-        "mean_magneto_projection_strength": "mean_magneto_projection_strength",
-        "mean_magneto_friction_multiplier": "mean_magneto_friction_multiplier",
+        "mean_coherence_projection_strength": "mean_coherence_projection_strength",
+        "mean_coherence_friction_multiplier": "mean_coherence_friction_multiplier",
         "mean_soft_conflict_correction": "mean_soft_conflict_correction",
         "mean_recovery_score": "mean_recovery_score",
         "mean_direction_coherence": "mean_direction_coherence",
@@ -375,22 +375,22 @@ def export_report(output_dir: str | Path) -> dict[str, Any]:
 
     thermo_vs_adamw = compute_meaningful_wins(combined_aggregated, "thermodynamic_adam", "adamw")
     diffusion_vs_adamw = compute_meaningful_wins(combined_aggregated, "diffusion_adam", "adamw")
-    hamiltonian_vs_adamw = compute_meaningful_wins(combined_aggregated, "hamiltonian_adam", "adamw")
+    hamiltonian_vs_adamw = compute_meaningful_wins(combined_aggregated, "coherent_momentum_physical_baseline", "adamw")
     thermo_vs_topo = compute_meaningful_wins(combined_aggregated, "thermodynamic_adam", "topological_adam")
     diffusion_vs_topo = compute_meaningful_wins(combined_aggregated, "diffusion_adam", "topological_adam")
-    hamiltonian_vs_topo = compute_meaningful_wins(combined_aggregated, "hamiltonian_adam", "topological_adam")
+    hamiltonian_vs_topo = compute_meaningful_wins(combined_aggregated, "coherent_momentum_physical_baseline", "topological_adam")
     helpful_signals, harmful_signals = summarize_ablations(ablation_frame)
 
     figure_dir = output_path / "figures"
     trace_frame = _load_trace_frames(pd.concat([benchmark_frame, stability_frame], ignore_index=True))
-    physical_optimizers = ["adamw", "topological_adam", "thermodynamic_adam", "diffusion_adam", "hamiltonian_adam"]
+    physical_optimizers = ["adamw", "topological_adam", "thermodynamic_adam", "diffusion_adam", "coherent_momentum_physical_baseline"]
     _plot_metric(trace_frame, output_path=figure_dir / "loss_curves.png", title="Loss Curves", metric="train_loss", tasks=["moons_mlp", "digits_cnn", "pinn_harmonic_oscillator"], optimizers=physical_optimizers)
     _plot_metric(trace_frame, output_path=figure_dir / "validation_accuracy_curves.png", title="Validation Accuracy Curves", metric="val_accuracy", tasks=["moons_mlp", "digits_cnn", "breast_cancer_mlp"], optimizers=physical_optimizers, event="val")
     _plot_metric(trace_frame, output_path=figure_dir / "gradient_norm_curves.png", title="Gradient Norm Curves", metric="grad_norm", tasks=["noisy_gradients_classification", "nonstationary_moons"], optimizers=physical_optimizers)
     _plot_metric(trace_frame, output_path=figure_dir / "update_norm_curves.png", title="Update Norm Curves", metric="update_norm", tasks=["noisy_gradients_classification", "saddle_objective"], optimizers=physical_optimizers)
     _plot_metric(trace_frame, output_path=figure_dir / "temperature_curves.png", title="Thermodynamic Temperature", metric="temperature", tasks=["moons_mlp", "noisy_gradients_classification"], optimizers=["thermodynamic_adam"])
     _plot_metric(trace_frame, output_path=figure_dir / "diffusion_noise_curves.png", title="Diffusion Noise", metric="noise_norm", tasks=["moons_mlp", "noisy_gradients_classification"], optimizers=["diffusion_adam"])
-    _plot_metric(trace_frame, output_path=figure_dir / "energy_drift_curves.png", title="Hamiltonian Energy Drift", metric="energy_drift", tasks=["saddle_objective", "pinn_harmonic_oscillator"], optimizers=["hamiltonian_adam"])
+    _plot_metric(trace_frame, output_path=figure_dir / "energy_drift_curves.png", title="Hamiltonian Energy Drift", metric="energy_drift", tasks=["saddle_objective", "pinn_harmonic_oscillator"], optimizers=["coherent_momentum_physical_baseline"])
     stability_summary = aggregated_stability[aggregated_stability["optimizer"].isin(physical_optimizers)][["task", "optimizer", "mean_training_stability"]]
     _plot_bar(stability_summary, figure_dir / "stability_comparison.png", "Stability Comparison", "task", "mean_training_stability", "optimizer")
     steps_summary = aggregated_benchmark[aggregated_benchmark["optimizer"].isin(physical_optimizers)][["task", "optimizer", "mean_steps_to_target_loss"]]

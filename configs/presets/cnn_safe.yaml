@@ -1,4 +1,4 @@
-optimizer: magneto_hamiltonian_adam_improved
+optimizer: coherent_momentum_optimizer_improved
 preset: cnn_safe
 projection_mode: conflict_only
 conv_safe_mode: true

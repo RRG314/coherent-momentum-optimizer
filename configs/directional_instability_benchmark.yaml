@@ -13,15 +13,15 @@ benchmark_tasks:
   - small_batch_instability
 tuning_tasks: []
 optimizers:
-  - magneto_hamiltonian_adam
-  - magneto_hamiltonian_adam_improved
+  - coherent_momentum_optimizer
+  - coherent_momentum_optimizer_improved
   - sgd
   - sgd_momentum
   - rmsprop
   - adam
   - adamw
-  - real_hamiltonian_adam
-  - magneto_adam
+  - coherent_momentum_real_baseline
+  - coherent_direction_reference
 include_optional_modern_baselines: false
 optional_modern_optimizers: []
 tuning_epoch_scale: 0.4

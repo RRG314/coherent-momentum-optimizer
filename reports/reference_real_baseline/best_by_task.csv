@@ -1,0 +1,17 @@
+task,best_optimizer,task_family,score,mean_best_val_loss,mean_best_val_accuracy
+breast_cancer_mlp,rmsprop,neural,0.98828125,0.05673210831203803,0.98828125
+circles_mlp,rmsprop,neural,0.994419644276301,0.040012445300817434,0.994419644276301
+harmonic_oscillator_objective,rmsprop,hamiltonian,0.0,0.0,
+high_curvature_regression,sgd_momentum,stability,0.00022578345669893333,0.00022578345669893333,
+label_noise_breast_cancer,lion,stress,0.96484375,0.17856396858890847,0.96484375
+moons_mlp,rmsprop,neural,0.9947916666666666,0.04880488011986014,0.9947916666666666
+narrow_valley_objective,sgd_momentum,hamiltonian,3.576398396425106e-15,3.576398396425106e-15,
+noisy_quadratic_objective,sgd_momentum,stress,-0.04873776560028393,-0.04873776560028393,
+noisy_regression,sgd_momentum,convex,0.06320076094319417,0.06320076094319417,
+oscillatory_valley,coherent_momentum_real_baseline,stress,-0.23404784500598905,-0.23404784500598905,
+overfit_small_wine,sgd_momentum,stability,0.9851851860682169,0.07827125396579503,0.9851851860682169
+quadratic_bowl_objective,sgd_momentum,hamiltonian,0.029929944624503435,0.029929944624503435,
+rosenbrock_valley,rmsprop,stress,0.00042397530827046665,0.00042397530827046665,
+saddle_objective,sgd_momentum,stability,-4.132232030232747,-4.132232030232747,
+small_batch_instability,coherent_momentum_physical_baseline,stability,0.8760162691275278,0.37985724210739136,0.8760162691275278
+wine_mlp,sgd_momentum,neural,0.9851851860682169,0.0556036126799881,0.9851851860682169

@@ -50,8 +50,8 @@ OPTIONAL_CNN_BASELINES = [
 ]
 
 PRIMARY_CNN_OPTIMIZERS = [
-    "magneto_hamiltonian_adam",
-    "magneto_hamiltonian_adam_improved",
+    "coherent_momentum_optimizer",
+    "coherent_momentum_optimizer_improved",
 ]
 
 
@@ -115,14 +115,14 @@ def export_cnn_credibility_report(output_dir: str | Path) -> dict[str, Any]:
     best_frame = best_by_task(aggregated)
     best_frame.to_csv(output_path / "best_by_task.csv", index=False)
 
-    cmo_vs_adamw = compute_meaningful_wins(aggregated, "magneto_hamiltonian_adam_improved", "adamw") if {"magneto_hamiltonian_adam_improved", "adamw"}.issubset(set(aggregated["optimizer"])) else pd.DataFrame()
-    cmo_vs_rmsprop = compute_meaningful_wins(aggregated, "magneto_hamiltonian_adam_improved", "rmsprop") if {"magneto_hamiltonian_adam_improved", "rmsprop"}.issubset(set(aggregated["optimizer"])) else pd.DataFrame()
-    cmo_vs_sgdm = compute_meaningful_wins(aggregated, "magneto_hamiltonian_adam_improved", "sgd_momentum") if {"magneto_hamiltonian_adam_improved", "sgd_momentum"}.issubset(set(aggregated["optimizer"])) else pd.DataFrame()
+    cmo_vs_adamw = compute_meaningful_wins(aggregated, "coherent_momentum_optimizer_improved", "adamw") if {"coherent_momentum_optimizer_improved", "adamw"}.issubset(set(aggregated["optimizer"])) else pd.DataFrame()
+    cmo_vs_rmsprop = compute_meaningful_wins(aggregated, "coherent_momentum_optimizer_improved", "rmsprop") if {"coherent_momentum_optimizer_improved", "rmsprop"}.issubset(set(aggregated["optimizer"])) else pd.DataFrame()
+    cmo_vs_sgdm = compute_meaningful_wins(aggregated, "coherent_momentum_optimizer_improved", "sgd_momentum") if {"coherent_momentum_optimizer_improved", "sgd_momentum"}.issubset(set(aggregated["optimizer"])) else pd.DataFrame()
 
     figure_dir = output_path / "figures"
     figure_dir.mkdir(parents=True, exist_ok=True)
     trace_frame = _load_trace_frames(benchmark_frame)
-    plot_optimizers = [name for name in ["magneto_hamiltonian_adam_improved", "magneto_hamiltonian_adam", "adamw", "rmsprop", "sgd_momentum"] if name in set(aggregated["optimizer"])]
+    plot_optimizers = [name for name in ["coherent_momentum_optimizer_improved", "coherent_momentum_optimizer", "adamw", "rmsprop", "sgd_momentum"] if name in set(aggregated["optimizer"])]
     focus_tasks = [task for task in ["digits_cnn", "digits_cnn_label_noise", "digits_cnn_input_noise", "mnist_small_cnn", "fashion_mnist_small_cnn"] if task in set(benchmark_frame["task"])]
     if focus_tasks:
         _plot_metric(

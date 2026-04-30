@@ -1,0 +1,24 @@
+output_dir: reports/coherent_momentum_gpu
+device: cpu
+seeds: [11, 29, 47]
+tuning_seeds: [11]
+search_budget: 1
+optimizers:
+  - coherent_momentum_optimizer
+  - coherent_momentum_optimizer_improved
+  - coherent_momentum_real_baseline
+  - adamw
+  - rmsprop
+  - sgd_momentum
+  - adam
+tuning_tasks:
+  - digits_cnn
+  - digits_cnn_label_noise
+  - digits_cnn_input_noise
+benchmark_tasks:
+  - digits_cnn
+  - digits_cnn_label_noise
+  - digits_cnn_input_noise
+tuning_epoch_scale: 0.4
+benchmark_epoch_scale: 0.75
+use_tuning_results: true

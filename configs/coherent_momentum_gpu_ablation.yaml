@@ -1,0 +1,10 @@
+output_dir: reports/coherent_momentum_gpu
+device: cpu
+seeds: [11]
+ablation_tasks:
+  - digits_cnn
+  - oscillatory_valley
+  - saddle_objective
+  - conflicting_batches_classification
+  - small_batch_instability
+ablation_epoch_scale: 0.85

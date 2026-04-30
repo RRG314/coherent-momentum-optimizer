@@ -1,0 +1,23 @@
+output_dir: reports/coherent_momentum_optimizer
+device: cpu
+seeds: [11, 29, 47]
+energy_epoch_scale: 1.0
+optimizers:
+  - coherent_momentum_optimizer
+  - coherent_momentum_real_baseline
+  - coherent_direction_reference
+  - coherent_momentum_physical_baseline
+  - adamw
+  - rmsprop
+  - sgd_momentum
+  - lion
+  - topological_adam
+energy_tasks:
+  - harmonic_oscillator_objective
+  - quadratic_bowl_objective
+  - rosenbrock_valley
+  - saddle_objective
+  - narrow_valley_objective
+  - noisy_quadratic_objective
+  - oscillatory_valley
+  - direction_reversal_objective

@@ -1,0 +1,15 @@
+output_dir: reports/coherent_momentum_gpu
+device: auto
+smoke_seeds: [11]
+smoke_tasks:
+  - linear_regression
+  - breast_cancer_mlp
+  - digits_cnn
+  - oscillatory_valley
+smoke_optimizers:
+  - coherent_momentum_optimizer
+  - coherent_momentum_optimizer_improved
+  - adamw
+  - rmsprop
+  - sgd_momentum
+smoke_epoch_scale: 0.4

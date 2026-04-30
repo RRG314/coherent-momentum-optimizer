@@ -2,7 +2,7 @@
 
 A PyTorch optimizer for directional coherence in unstable gradient regimes.
 
-`CoherentMomentumOptimizer` is the public alias for the current stable `MagnetoHamiltonianAdam` implementation in this repository. The repo keeps the original research class names for backward compatibility, but the public-facing framing is directional coherence under unstable gradient dynamics, not a claim of universal optimizer superiority.
+`CoherentMomentumOptimizer` is the public class for the stable mainline in this repository. The public framing is directional coherence under unstable gradient dynamics, not a claim of universal optimizer superiority.
 
 ## Overview
 
@@ -38,9 +38,9 @@ This repository is therefore organized around a **focused proof story**, not a b
 - `Adam` / `AdamW` combine momentum with adaptive per-parameter scaling.
 - `CoherentMomentumOptimizer` explicitly measures directional coherence, conflict, and rotation, then adjusts the step when the direction becomes unstable.
 
-Internally, the stable alias currently maps to `MagnetoHamiltonianAdam`, which depends on `HamiltonianAdamReal` for the physical base dynamics.
+Internally, the stable alias currently maps to `CoherentMomentumOptimizer`, which depends on `CoherentMomentumRealBaseline` for the physical base dynamics.
 
-The repo keeps a fuller comparison note in [docs/COMPARISONS.md](/Users/stevenreid/Documents/New project/repos/magneto-hamiltonian-adam/docs/COMPARISONS.md). The bibliography for every optimizer family named in this repository is collected in [REFERENCES.md](/Users/stevenreid/Documents/New project/repos/magneto-hamiltonian-adam/REFERENCES.md).
+The repo keeps a fuller comparison note in [docs/COMPARISONS.md](docs/COMPARISONS.md). The bibliography for every optimizer family named in this repository is collected in [REFERENCES.md](REFERENCES.md). The repository-level attribution note is in [ACKNOWLEDGEMENTS.md](ACKNOWLEDGEMENTS.md).
 
 ## Current Implementation
 
@@ -48,13 +48,11 @@ Public optimizer entry points:
 
 - `src/optimizers/coherent_momentum_optimizer.py`
   - `CoherentMomentumOptimizer`
+- `src/optimizers/coherent_momentum_optimizer_improved.py`
   - `CoherentMomentumOptimizerImproved`
-- `src/optimizers/magneto_hamiltonian_adam.py`
-  - `MagnetoHamiltonianAdam`
-- `src/optimizers/magneto_hamiltonian_adam_improved.py`
-  - `MagnetoHamiltonianAdamImproved`
-- `src/optimizers/hamiltonian_adam.py`
-  - `HamiltonianAdamReal`
+- `src/optimizers/coherent_momentum_real_baseline.py`
+  - `CoherentMomentumRealBaseline`
+  - `CoherentMomentumPhysicalBaseline`
 
 The public alias is:
 
@@ -62,10 +60,10 @@ The public alias is:
 from optimizers.coherent_momentum_optimizer import CoherentMomentumOptimizer
 ```
 
-The original research names remain valid:
+Related internal comparison classes remain importable:
 
 ```python
-from optimizers import MagnetoHamiltonianAdam, MagnetoHamiltonianAdamImproved, HamiltonianAdamReal
+from optimizers import CoherentMomentumOptimizer, CoherentMomentumOptimizerImproved, CoherentMomentumRealBaseline
 ```
 
 ### Step-by-step behavior
@@ -95,7 +93,7 @@ The current stable mainline follows this high-level flow:
 
 The improved branch keeps the same broad structure but moves more control computation onto tensors, adds diagnostics throttling, and evaluates safer presets such as `standard_safe`, `stress_specialist`, and `cnn_safe`.
 
-The method details live in [docs/METHOD.md](/Users/stevenreid/Documents/New project/repos/magneto-hamiltonian-adam/docs/METHOD.md), and the reason the repo keeps `HamiltonianAdamReal` visible is explained in [docs/REAL_BASELINE.md](/Users/stevenreid/Documents/New project/repos/magneto-hamiltonian-adam/docs/REAL_BASELINE.md).
+The method details live in [docs/METHOD.md](docs/METHOD.md), and the reason the repo keeps `CoherentMomentumRealBaseline` visible is explained in [docs/REAL_BASELINE.md](docs/REAL_BASELINE.md).
 
 ## Repository Layout
 
@@ -117,8 +115,8 @@ docs/
 
 Important note:
 
-- this repo still contains some internal comparison modules and legacy research support code copied forward from the wider optimizer workspace
-- the public surface for this repo is the coherent momentum / Magneto-Hamiltonian family
+- this repo still contains some internal comparison modules and historical research support code copied forward from the wider optimizer workspace
+- the public surface for this repo is the coherent momentum / Coherent Momentum family
 - the benchmark harness keeps additional optimizers because they are needed to reproduce the included comparison reports
 
 That broader internal surface is a reproducibility choice. It is not meant to suggest that every inherited module is part of the public optimizer identity.
@@ -155,10 +153,10 @@ No external dataset download is required for the default included tasks. Optiona
 
 The supporting explanation set for a newcomer is:
 
-- [docs/CLAIM.md](/Users/stevenreid/Documents/New project/repos/magneto-hamiltonian-adam/docs/CLAIM.md)
-- [docs/COMPARISONS.md](/Users/stevenreid/Documents/New project/repos/magneto-hamiltonian-adam/docs/COMPARISONS.md)
-- [docs/FAILURE_CASES.md](/Users/stevenreid/Documents/New project/repos/magneto-hamiltonian-adam/docs/FAILURE_CASES.md)
-- [REFERENCES.md](/Users/stevenreid/Documents/New project/repos/magneto-hamiltonian-adam/REFERENCES.md)
+- [docs/CLAIM.md](docs/CLAIM.md)
+- [docs/COMPARISONS.md](docs/COMPARISONS.md)
+- [docs/FAILURE_CASES.md](docs/FAILURE_CASES.md)
+- [REFERENCES.md](REFERENCES.md)
 
 ## Quick Start
 
@@ -196,9 +194,9 @@ print(optimizer.latest_diagnostics())
 Focused repo-ready test commands:
 
 ```bash
-pytest tests/test_magneto_hamiltonian_adam.py -q
-pytest tests/test_magneto_gpu_compatibility.py -q
-pytest tests/test_magneto_benchmark_outputs.py -q
+pytest tests/test_coherent_momentum_optimizer.py -q
+pytest tests/test_coherent_momentum_gpu_compatibility.py -q
+pytest tests/test_coherent_momentum_benchmark_outputs.py -q
 ```
 
 These are the relevant readiness tests for this repository. Do **not** use unrelated workspace test failures as evidence against this repo.
@@ -220,35 +218,25 @@ Those are the tests used as repo-readiness evidence in the audit and reproductio
 Stable mainline script names:
 
 ```bash
-python scripts/run_magneto_hamiltonian_adam_smoke.py
-python scripts/run_magneto_hamiltonian_adam_benchmarks.py --config configs/magneto_hamiltonian_adam_default.yaml
-python scripts/run_magneto_hamiltonian_adam_energy_tests.py --config configs/magneto_hamiltonian_adam_energy.yaml
-python scripts/run_magneto_hamiltonian_adam_ablation.py --config configs/magneto_hamiltonian_adam_ablation.yaml
-python scripts/export_magneto_hamiltonian_adam_report.py
-```
-
-If a fresh `reports/magneto_hamiltonian_adam/` benchmark folder does not exist yet, the export wrapper falls back to the accepted historical snapshot in `reports/accepted_magneto_hamiltonian/` instead of failing.
-
-Public-alias wrapper script names:
-
-```bash
 python scripts/run_coherent_momentum_optimizer_smoke.py
-python scripts/run_coherent_momentum_optimizer_benchmarks.py --config configs/magneto_hamiltonian_adam_default.yaml
-python scripts/run_coherent_momentum_optimizer_energy_tests.py --config configs/magneto_hamiltonian_adam_energy.yaml
-python scripts/run_coherent_momentum_optimizer_ablation.py --config configs/magneto_hamiltonian_adam_ablation.yaml
+python scripts/run_coherent_momentum_optimizer_benchmarks.py --config configs/coherent_momentum_optimizer_default.yaml
+python scripts/run_coherent_momentum_optimizer_energy_tests.py --config configs/coherent_momentum_optimizer_energy.yaml
+python scripts/run_coherent_momentum_optimizer_ablation.py --config configs/coherent_momentum_optimizer_ablation.yaml
 python scripts/export_coherent_momentum_optimizer_report.py
 ```
+
+If a fresh `reports/coherent_momentum_mainline/` benchmark folder does not exist yet, the export wrapper falls back to the accepted historical snapshot in `reports/accepted_coherent_momentum/` instead of failing.
 
 GPU compatibility and specialist suite:
 
 ```bash
-python scripts/run_magneto_gpu_smoke.py
-python scripts/run_magneto_gpu_benchmarks.py --config configs/magneto_gpu_default.yaml
-python scripts/run_magneto_gpu_cnn_benchmarks.py --config configs/magneto_gpu_cnn.yaml
-python scripts/run_magneto_gpu_stress_benchmarks.py --config configs/magneto_gpu_stress.yaml
-python scripts/run_magneto_gpu_multitask_benchmarks.py --config configs/magneto_gpu_multitask.yaml
-python scripts/run_magneto_gpu_ablation.py --config configs/magneto_gpu_ablation.yaml
-python scripts/export_magneto_gpu_report.py
+python scripts/run_coherent_momentum_gpu_smoke.py
+python scripts/run_coherent_momentum_gpu_benchmarks.py --config configs/coherent_momentum_gpu_default.yaml
+python scripts/run_coherent_momentum_gpu_cnn_benchmarks.py --config configs/coherent_momentum_gpu_cnn.yaml
+python scripts/run_coherent_momentum_gpu_stress_benchmarks.py --config configs/coherent_momentum_gpu_stress.yaml
+python scripts/run_coherent_momentum_gpu_multitask_benchmarks.py --config configs/coherent_momentum_gpu_multitask.yaml
+python scripts/run_coherent_momentum_gpu_ablation.py --config configs/coherent_momentum_gpu_ablation.yaml
+python scripts/export_coherent_momentum_gpu_report.py
 ```
 
 Focused newcomer-facing proof benchmark:
@@ -294,8 +282,8 @@ The repo keeps the standard baselines that matter most for this narrow claim:
 - `RMSProp`
 - `Adam`
 - `AdamW`
-- `HamiltonianAdamReal`
-- `MagnetoAdam`
+- `CoherentMomentumRealBaseline`
+- `CoherentDirectionReferenceOptimizer`
 
 Modern baseline status is documented in `docs/MODERN_BASELINES.md`.
 
@@ -314,12 +302,12 @@ Current status:
 
 The current repo contains two main result families:
 
-1. accepted mainline Magneto-Hamiltonian reports in `reports/accepted_magneto_hamiltonian/`
-2. GPU compatibility + improved-branch audit reports in `reports/magneto_gpu/`
+1. accepted mainline Coherent Momentum reports in `reports/accepted_coherent_momentum/`
+2. GPU compatibility + improved-branch audit reports in `reports/coherent_momentum_gpu/`
 
 ### Accepted mainline snapshots
 
-Selected rows from `reports/accepted_magneto_hamiltonian/benchmark_results.csv`:
+Selected rows from `reports/accepted_coherent_momentum/benchmark_results.csv`:
 
 | task | best val loss | best val acc |
 | --- | ---: | ---: |
@@ -331,15 +319,15 @@ Selected rows from `reports/accepted_magneto_hamiltonian/benchmark_results.csv`:
 
 Validated win counts from the accepted mainline report:
 
-- vs `real_hamiltonian_adam`: `13`
-- vs `magneto_adam`: `7`
+- vs `coherent_momentum_real_baseline`: `13`
+- vs `coherent_direction_reference`: `7`
 - vs `adamw`: `8`
 - vs `rmsprop`: `4`
 - vs `topological_adam`: `8`
 
 ### GPU / improved-branch audit summary
 
-From `reports/magneto_gpu/final_magneto_gpu_report.md`:
+From `reports/coherent_momentum_gpu/final_coherent_momentum_gpu_report.md`:
 
 - improved branch vs current Magneto: `8` meaningful wins, `3` tracked `2x` wins
 - improved branch vs `AdamW`: `7` meaningful wins, `3` tracked `2x` wins
@@ -416,11 +404,11 @@ Current CNN takeaway:
 
 Mainline reports:
 
-- `reports/accepted_magneto_hamiltonian/`
+- `reports/accepted_coherent_momentum/`
 
 GPU and improved-branch audit:
 
-- `reports/magneto_gpu/`
+- `reports/coherent_momentum_gpu/`
 
 Focused directional-instability proof:
 
@@ -436,7 +424,7 @@ Directional demo:
 
 Real Hamiltonian reference:
 
-- `reports/reference_real_hamiltonian/`
+- `reports/reference_real_baseline/`
 
 Repo readiness audit:
 
@@ -444,8 +432,8 @@ Repo readiness audit:
 
 Additional audit docs:
 
-- `reports/magneto_repo_audit/code_audit.md`
-- `reports/magneto_repo_audit/improvement_plan.md`
+- `reports/coherence_repo_audit/code_audit.md`
+- `reports/coherence_repo_audit/improvement_plan.md`
 
 ## Limitations
 
@@ -488,6 +476,6 @@ If you use this repository, cite it as software and point readers to the include
   title = {Coherent Momentum Optimizer},
   author = {Reid, Steven},
   year = {2026},
-  note = {PyTorch research optimizer repository with Magneto-Hamiltonian and coherent momentum implementations},
+  note = {PyTorch research optimizer repository with Coherent Momentum and coherent momentum implementations},
 }
 ```

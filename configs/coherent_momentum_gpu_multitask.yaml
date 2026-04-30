@@ -1,0 +1,24 @@
+output_dir: reports/coherent_momentum_gpu
+device: cpu
+seeds: [11, 29, 47]
+tuning_seeds: [11]
+search_budget: 1
+optimizers:
+  - coherent_momentum_optimizer
+  - coherent_momentum_optimizer_improved
+  - coherent_momentum_real_baseline
+  - coherent_direction_reference
+  - adamw
+  - rmsprop
+  - sgd_momentum
+tuning_tasks:
+  - conflicting_batches_classification
+  - block_structure_classification
+  - small_batch_instability
+benchmark_tasks:
+  - conflicting_batches_classification
+  - block_structure_classification
+  - small_batch_instability
+tuning_epoch_scale: 0.4
+benchmark_epoch_scale: 0.7
+use_tuning_results: true

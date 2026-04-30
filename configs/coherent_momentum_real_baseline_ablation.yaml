@@ -1,0 +1,11 @@
+output_dir: reports/coherent_momentum_real_baseline
+device: cpu
+seeds: [11, 29, 47]
+ablation_epoch_scale: 0.85
+ablation_tasks:
+  - harmonic_oscillator_objective
+  - rosenbrock_valley
+  - saddle_objective
+  - wine_mlp
+  - circles_mlp
+  - overfit_small_wine

@@ -21,10 +21,10 @@ from .reporting import (
 
 PHYSICS_OPTIMIZERS = [
     "sds_adam",
-    "magneto_adam",
+    "coherent_direction_reference",
     "thermodynamic_adam",
     "diffusion_adam",
-    "hamiltonian_adam",
+    "coherent_momentum_physical_baseline",
     "uncertainty_adam",
 ]
 
@@ -137,19 +137,19 @@ def _generate_figures(output_path: Path, benchmark_frame: pd.DataFrame, stress_f
     )
     _plot_metric(
         trace_frame,
-        output_path=figure_dir / "magneto_alignment_curves.png",
+        output_path=figure_dir / "coherence_alignment_curves.png",
         title="Magneto Alignment",
         metric="grad_momentum_cosine",
         tasks=["nonstationary_moons", "direction_reversal_objective"],
-        optimizers=["magneto_adam"],
+        optimizers=["coherent_direction_reference"],
     )
     _plot_metric(
         trace_frame,
-        output_path=figure_dir / "magneto_rotation_curves.png",
+        output_path=figure_dir / "coherence_rotation_curves.png",
         title="Magneto Rotation",
         metric="rotation_score",
         tasks=["nonstationary_moons", "direction_reversal_objective"],
-        optimizers=["magneto_adam"],
+        optimizers=["coherent_direction_reference"],
     )
     _plot_metric(
         trace_frame,
@@ -173,7 +173,7 @@ def _generate_figures(output_path: Path, benchmark_frame: pd.DataFrame, stress_f
         title="Hamiltonian Energy Drift",
         metric="energy_drift",
         tasks=["rosenbrock_valley", "oscillatory_valley"],
-        optimizers=["hamiltonian_adam"],
+        optimizers=["coherent_momentum_physical_baseline"],
     )
     _plot_metric(
         trace_frame,
@@ -251,7 +251,7 @@ def export_physics_report(output_dir: str | Path) -> dict[str, Any]:
             "Update ratio, gradient ratio, gradient entropy, and validation gap.",
             "AdamW direction is scaled by a smooth inner/outer horizon controller that reheats low-update stagnation and cools oversized updates.",
         ),
-        "magneto_adam": (
+        "coherent_direction_reference": (
             "Cosine alignment between gradient, momentum, previous gradient, and previous update, plus rotation and coherence scores.",
             "AdamW direction is reweighted by directional coherence and damped when gradients rotate or oppose momentum.",
         ),
@@ -263,7 +263,7 @@ def export_physics_report(output_dir: str | Path) -> dict[str, Any]:
             "Diffusion scale, entropy-conditioned noise scale, stagnation counter, and bounded noise-to-update ratio.",
             "AdamW update is perturbed by annealed Gaussian noise with optional gradient alignment, capped so noise cannot dominate.",
         ),
-        "hamiltonian_adam": (
+        "coherent_momentum_physical_baseline": (
             "Kinetic proxy from momentum, potential proxy from loss EMA, total energy drift, and oscillation score.",
             "AdamW direction is damped or amplified based on energy drift and oscillation, preserving momentum only when the trajectory is stable.",
         ),
@@ -320,7 +320,7 @@ def export_physics_report(output_dir: str | Path) -> dict[str, Any]:
             f"- {int(wins_vs_adamw_map['sds_adam']['win'].sum()) if 'sds_adam' in wins_vs_adamw_map else 0} meaningful task wins.",
             "",
             "## 9. Whether Magneto Adam beat AdamW",
-            f"- {int(wins_vs_adamw_map['magneto_adam']['win'].sum()) if 'magneto_adam' in wins_vs_adamw_map else 0} meaningful task wins.",
+            f"- {int(wins_vs_adamw_map['coherent_direction_reference']['win'].sum()) if 'coherent_direction_reference' in wins_vs_adamw_map else 0} meaningful task wins.",
             "",
             "## 10. Whether Thermodynamic Adam beat AdamW",
             f"- {int(wins_vs_adamw_map['thermodynamic_adam']['win'].sum()) if 'thermodynamic_adam' in wins_vs_adamw_map else 0} meaningful task wins.",
@@ -329,7 +329,7 @@ def export_physics_report(output_dir: str | Path) -> dict[str, Any]:
             f"- {int(wins_vs_adamw_map['diffusion_adam']['win'].sum()) if 'diffusion_adam' in wins_vs_adamw_map else 0} meaningful task wins.",
             "",
             "## 12. Whether Hamiltonian Adam beat AdamW",
-            f"- {int(wins_vs_adamw_map['hamiltonian_adam']['win'].sum()) if 'hamiltonian_adam' in wins_vs_adamw_map else 0} meaningful task wins.",
+            f"- {int(wins_vs_adamw_map['coherent_momentum_physical_baseline']['win'].sum()) if 'coherent_momentum_physical_baseline' in wins_vs_adamw_map else 0} meaningful task wins.",
             "",
             "## 13. Whether Quantum/Uncertainty Adam beat AdamW",
             f"- {int(wins_vs_adamw_map['uncertainty_adam']['win'].sum()) if 'uncertainty_adam' in wins_vs_adamw_map else 0} meaningful task wins.",

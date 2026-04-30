@@ -1,8 +1,8 @@
 {
   "device": "mps",
   "optimizers": [
-    "magneto_hamiltonian_adam",
-    "magneto_hamiltonian_adam_improved",
+    "coherence_coherent_momentum_physical_baseline",
+    "coherence_coherent_momentum_physical_baseline_improved",
     "sgd_momentum",
     "rmsprop",
     "adamw"

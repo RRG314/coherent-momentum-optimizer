@@ -46,30 +46,30 @@ UNIFIED_BASELINE_OPTIMIZERS = [
 
 UNIFIED_PHYSICAL_OPTIMIZERS = [
     "sds_adam",
-    "magneto_adam",
+    "coherent_direction_reference",
     "thermodynamic_adam",
     "diffusion_adam",
-    "hamiltonian_adam",
-    "hamiltonian_adam_v2",
+    "coherent_momentum_physical_baseline",
+    "coherent_momentum_adaptive_mass_baseline",
     "uncertainty_adam",
     "unified_physics_adam",
 ]
 
-CONTROLLERS = ["sds", "magneto", "thermodynamic", "diffusion", "hamiltonian", "uncertainty"]
+CONTROLLERS = ["sds", "coherence", "thermodynamic", "diffusion", "hamiltonian", "uncertainty"]
 
 ORIGINAL_COMBO_NAMES = {
     "neutral_adamw_equivalent",
     "unified_full",
     "sds_only",
-    "magneto_only",
+    "coherence_only",
     "thermodynamic_only",
     "diffusion_only",
     "hamiltonian_only",
     "uncertainty_only",
-    "sds_magneto",
+    "sds_coherence",
     "sds_thermodynamic",
-    "magneto_thermodynamic",
-    "sds_magneto_thermodynamic",
+    "coherence_thermodynamic",
+    "sds_coherence_thermodynamic",
     "full_without_diffusion",
     "full_without_hamiltonian",
     "full_without_uncertainty",
@@ -169,10 +169,10 @@ REPO_SCAN_OBSERVATIONS = [
     },
     {
         "path": "reports/physics_adam/final_report.md",
-        "summary": "The prior physics-Adam suite found that magneto-style directional control had the strongest broad signal, while diffusion and uncertainty were weak and often fragile.",
+        "summary": "The prior physics-Adam suite found that coherence-style directional control had the strongest broad signal, while diffusion and uncertainty were weak and often fragile.",
     },
     {
-        "path": "reports/hamiltonian_adam_v2/final_report.md",
+        "path": "reports/coherent_momentum_adaptive_mass_baseline/final_report.md",
         "summary": "The Hamiltonian v2 study showed that normalized energy trend control mattered, but RMSProp still remained the strongest overall baseline on many tasks.",
     },
 ]
@@ -262,7 +262,7 @@ def _controller_overrides(active_controllers: list[str] | set[str]) -> dict[str,
                 "sds_entropy_weight": 0.0,
             }
         )
-    if "magneto" not in active:
+    if "coherence" not in active:
         overrides.update(
             {
                 "alignment_strength": 0.0,
@@ -317,18 +317,18 @@ def _ablation_variants() -> list[dict[str, Any]]:
         {"variant_name": "neutral_adamw_equivalent", "optimizer_name": "unified_physics_adam", "overrides": _controller_overrides([]) | {"min_step_scale": 1.0, "max_step_scale": 1.0}},
         {"variant_name": "unified_full", "optimizer_name": "unified_physics_adam", "overrides": _controller_overrides(CONTROLLERS)},
         {"variant_name": "sds_only", "optimizer_name": "unified_physics_adam", "overrides": _controller_overrides(["sds"])},
-        {"variant_name": "magneto_only", "optimizer_name": "unified_physics_adam", "overrides": _controller_overrides(["magneto"])},
+        {"variant_name": "coherence_only", "optimizer_name": "unified_physics_adam", "overrides": _controller_overrides(["coherence"])},
         {"variant_name": "thermodynamic_only", "optimizer_name": "unified_physics_adam", "overrides": _controller_overrides(["thermodynamic"])},
         {"variant_name": "diffusion_only", "optimizer_name": "unified_physics_adam", "overrides": _controller_overrides(["diffusion"])},
         {"variant_name": "hamiltonian_only", "optimizer_name": "unified_physics_adam", "overrides": _controller_overrides(["hamiltonian"])},
         {"variant_name": "uncertainty_only", "optimizer_name": "unified_physics_adam", "overrides": _controller_overrides(["uncertainty"])},
-        {"variant_name": "sds_magneto", "optimizer_name": "unified_physics_adam", "overrides": _controller_overrides(["sds", "magneto"])},
+        {"variant_name": "sds_coherence", "optimizer_name": "unified_physics_adam", "overrides": _controller_overrides(["sds", "coherence"])},
         {"variant_name": "sds_thermodynamic", "optimizer_name": "unified_physics_adam", "overrides": _controller_overrides(["sds", "thermodynamic"])},
-        {"variant_name": "magneto_thermodynamic", "optimizer_name": "unified_physics_adam", "overrides": _controller_overrides(["magneto", "thermodynamic"])},
-        {"variant_name": "sds_magneto_thermodynamic", "optimizer_name": "unified_physics_adam", "overrides": _controller_overrides(["sds", "magneto", "thermodynamic"])},
-        {"variant_name": "full_without_diffusion", "optimizer_name": "unified_physics_adam", "overrides": _controller_overrides(["sds", "magneto", "thermodynamic", "hamiltonian", "uncertainty"])},
-        {"variant_name": "full_without_hamiltonian", "optimizer_name": "unified_physics_adam", "overrides": _controller_overrides(["sds", "magneto", "thermodynamic", "diffusion", "uncertainty"])},
-        {"variant_name": "full_without_uncertainty", "optimizer_name": "unified_physics_adam", "overrides": _controller_overrides(["sds", "magneto", "thermodynamic", "diffusion", "hamiltonian"])},
+        {"variant_name": "coherence_thermodynamic", "optimizer_name": "unified_physics_adam", "overrides": _controller_overrides(["coherence", "thermodynamic"])},
+        {"variant_name": "sds_coherence_thermodynamic", "optimizer_name": "unified_physics_adam", "overrides": _controller_overrides(["sds", "coherence", "thermodynamic"])},
+        {"variant_name": "full_without_diffusion", "optimizer_name": "unified_physics_adam", "overrides": _controller_overrides(["sds", "coherence", "thermodynamic", "hamiltonian", "uncertainty"])},
+        {"variant_name": "full_without_hamiltonian", "optimizer_name": "unified_physics_adam", "overrides": _controller_overrides(["sds", "coherence", "thermodynamic", "diffusion", "uncertainty"])},
+        {"variant_name": "full_without_uncertainty", "optimizer_name": "unified_physics_adam", "overrides": _controller_overrides(["sds", "coherence", "thermodynamic", "diffusion", "hamiltonian"])},
     ]
 
 
@@ -386,21 +386,21 @@ def _combo_candidates() -> list[dict[str, Any]]:
         {"combo_name": "neutral_adamw_equivalent", "optimizer_name": "unified_physics_adam", "active": [], "codex_inferred": False},
         {"combo_name": "unified_full", "optimizer_name": "unified_physics_adam", "active": CONTROLLERS, "codex_inferred": False},
         {"combo_name": "sds_only", "optimizer_name": "unified_physics_adam", "active": ["sds"], "codex_inferred": False},
-        {"combo_name": "magneto_only", "optimizer_name": "unified_physics_adam", "active": ["magneto"], "codex_inferred": False},
+        {"combo_name": "coherence_only", "optimizer_name": "unified_physics_adam", "active": ["coherence"], "codex_inferred": False},
         {"combo_name": "thermodynamic_only", "optimizer_name": "unified_physics_adam", "active": ["thermodynamic"], "codex_inferred": False},
         {"combo_name": "diffusion_only", "optimizer_name": "unified_physics_adam", "active": ["diffusion"], "codex_inferred": False},
         {"combo_name": "hamiltonian_only", "optimizer_name": "unified_physics_adam", "active": ["hamiltonian"], "codex_inferred": False},
         {"combo_name": "uncertainty_only", "optimizer_name": "unified_physics_adam", "active": ["uncertainty"], "codex_inferred": False},
-        {"combo_name": "sds_magneto", "optimizer_name": "unified_physics_adam", "active": ["sds", "magneto"], "codex_inferred": False},
+        {"combo_name": "sds_coherence", "optimizer_name": "unified_physics_adam", "active": ["sds", "coherence"], "codex_inferred": False},
         {"combo_name": "sds_thermodynamic", "optimizer_name": "unified_physics_adam", "active": ["sds", "thermodynamic"], "codex_inferred": False},
-        {"combo_name": "magneto_thermodynamic", "optimizer_name": "unified_physics_adam", "active": ["magneto", "thermodynamic"], "codex_inferred": False},
-        {"combo_name": "sds_magneto_thermodynamic", "optimizer_name": "unified_physics_adam", "active": ["sds", "magneto", "thermodynamic"], "codex_inferred": False},
-        {"combo_name": "full_without_diffusion", "optimizer_name": "unified_physics_adam", "active": ["sds", "magneto", "thermodynamic", "hamiltonian", "uncertainty"], "codex_inferred": False},
-        {"combo_name": "full_without_hamiltonian", "optimizer_name": "unified_physics_adam", "active": ["sds", "magneto", "thermodynamic", "diffusion", "uncertainty"], "codex_inferred": False},
-        {"combo_name": "full_without_uncertainty", "optimizer_name": "unified_physics_adam", "active": ["sds", "magneto", "thermodynamic", "diffusion", "hamiltonian"], "codex_inferred": False},
-        {"combo_name": "magneto_hamiltonian", "optimizer_name": "unified_physics_adam", "active": ["magneto", "hamiltonian"], "codex_inferred": True},
+        {"combo_name": "coherence_thermodynamic", "optimizer_name": "unified_physics_adam", "active": ["coherence", "thermodynamic"], "codex_inferred": False},
+        {"combo_name": "sds_coherence_thermodynamic", "optimizer_name": "unified_physics_adam", "active": ["sds", "coherence", "thermodynamic"], "codex_inferred": False},
+        {"combo_name": "full_without_diffusion", "optimizer_name": "unified_physics_adam", "active": ["sds", "coherence", "thermodynamic", "hamiltonian", "uncertainty"], "codex_inferred": False},
+        {"combo_name": "full_without_hamiltonian", "optimizer_name": "unified_physics_adam", "active": ["sds", "coherence", "thermodynamic", "diffusion", "uncertainty"], "codex_inferred": False},
+        {"combo_name": "full_without_uncertainty", "optimizer_name": "unified_physics_adam", "active": ["sds", "coherence", "thermodynamic", "diffusion", "hamiltonian"], "codex_inferred": False},
+        {"combo_name": "coherence_hamiltonian", "optimizer_name": "unified_physics_adam", "active": ["coherence", "hamiltonian"], "codex_inferred": True},
         {"combo_name": "thermodynamic_hamiltonian", "optimizer_name": "unified_physics_adam", "active": ["thermodynamic", "hamiltonian"], "codex_inferred": True},
-        {"combo_name": "magneto_hamiltonian_thermodynamic", "optimizer_name": "unified_physics_adam", "active": ["magneto", "hamiltonian", "thermodynamic"], "codex_inferred": True},
+        {"combo_name": "coherence_hamiltonian_thermodynamic", "optimizer_name": "unified_physics_adam", "active": ["coherence", "hamiltonian", "thermodynamic"], "codex_inferred": True},
     ]
 
 
@@ -608,15 +608,15 @@ def export_unified_physics_report(output_dir: str | Path) -> dict[str, Any]:
     win_flags.to_csv(output_path / "win_flags.csv", index=False)
 
     trace_frame = _load_trace_frames(combined_raw)
-    comparison_optimizers = ["adamw", "rmsprop", "topological_adam", "hamiltonian_adam_v2", "magneto_adam", "unified_physics_adam"]
+    comparison_optimizers = ["adamw", "rmsprop", "topological_adam", "coherent_momentum_adaptive_mass_baseline", "coherent_direction_reference", "unified_physics_adam"]
     if not trace_frame.empty and {"task", "optimizer"}.issubset(trace_frame.columns):
         _plot_metric(trace_frame, output_path=output_path / "figures" / "loss_curves.png", title="Loss Curves", metric="train_loss", tasks=["moons_mlp", "wine_mlp", "pinn_harmonic_oscillator"], optimizers=comparison_optimizers)
         _plot_metric(trace_frame, output_path=output_path / "figures" / "validation_accuracy_curves.png", title="Validation Accuracy Curves", metric="val_accuracy", tasks=["moons_mlp", "breast_cancer_mlp", "digits_mlp"], optimizers=comparison_optimizers, event="val")
         _plot_metric(trace_frame, output_path=output_path / "figures" / "gradient_norm_curves.png", title="Gradient Norm Curves", metric="grad_norm", tasks=["small_batch_instability", "unstable_deep_mlp"], optimizers=comparison_optimizers)
         _plot_metric(trace_frame, output_path=output_path / "figures" / "update_norm_curves.png", title="Update Norm Curves", metric="update_norm", tasks=["oscillatory_valley", "conflicting_batches_classification"], optimizers=comparison_optimizers)
         _plot_metric(trace_frame, output_path=output_path / "figures" / "sds_horizon_state_curves.png", title="SDS Horizon State", metric="horizon_code", tasks=["stagnating_regression", "small_batch_instability"], optimizers=["unified_physics_adam"])
-        _plot_metric(trace_frame, output_path=output_path / "figures" / "magneto_alignment_curves.png", title="Magneto Alignment", metric="grad_momentum_cosine", tasks=["conflicting_batches_classification", "oscillatory_valley"], optimizers=["unified_physics_adam"])
-        _plot_metric(trace_frame, output_path=output_path / "figures" / "magneto_rotation_curves.png", title="Magneto Rotation", metric="rotation_score", tasks=["conflicting_batches_classification", "oscillatory_valley"], optimizers=["unified_physics_adam"])
+        _plot_metric(trace_frame, output_path=output_path / "figures" / "coherence_alignment_curves.png", title="Magneto Alignment", metric="grad_momentum_cosine", tasks=["conflicting_batches_classification", "oscillatory_valley"], optimizers=["unified_physics_adam"])
+        _plot_metric(trace_frame, output_path=output_path / "figures" / "coherence_rotation_curves.png", title="Magneto Rotation", metric="rotation_score", tasks=["conflicting_batches_classification", "oscillatory_valley"], optimizers=["unified_physics_adam"])
         _plot_metric(trace_frame, output_path=output_path / "figures" / "thermodynamic_entropy_temperature_curves.png", title="Thermodynamic Temperature", metric="temperature", tasks=["loss_shock_classification", "small_batch_instability"], optimizers=["unified_physics_adam"])
         _plot_metric(trace_frame, output_path=output_path / "figures" / "diffusion_noise_scale_curves.png", title="Diffusion Noise Scale", metric="diffusion_scale", tasks=["plateau_escape_objective", "stagnating_regression"], optimizers=["unified_physics_adam"])
         _plot_metric(trace_frame, output_path=output_path / "figures" / "hamiltonian_energy_drift_curves.png", title="Hamiltonian Energy Drift", metric="energy_drift", tasks=["rosenbrock_valley", "oscillatory_valley"], optimizers=["unified_physics_adam"])

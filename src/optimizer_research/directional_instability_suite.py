@@ -45,8 +45,8 @@ REQUIRED_BASELINES = [
     "adam",
     "adamw",
     "lion",
-    "real_hamiltonian_adam",
-    "magneto_adam",
+    "coherent_momentum_real_baseline",
+    "coherent_direction_reference",
     "topological_adam",
 ]
 
@@ -59,8 +59,8 @@ OPTIONAL_MODERN_BASELINES = [
 ]
 
 PRIMARY_OPTIMIZERS = [
-    "magneto_hamiltonian_adam",
-    "magneto_hamiltonian_adam_improved",
+    "coherent_momentum_optimizer",
+    "coherent_momentum_optimizer_improved",
 ]
 
 
@@ -129,8 +129,8 @@ def export_directional_instability_report(output_dir: str | Path) -> dict[str, A
         "rmsprop",
         "sgd_momentum",
         "lion",
-        "real_hamiltonian_adam",
-        "magneto_adam",
+        "coherent_momentum_real_baseline",
+        "coherent_direction_reference",
         "topological_adam",
         "adabelief",
         "muon_hybrid",
@@ -151,7 +151,7 @@ def export_directional_instability_report(output_dir: str | Path) -> dict[str, A
     figure_dir = output_path / "figures"
     figure_dir.mkdir(parents=True, exist_ok=True)
     trace_frame = _load_trace_frames(benchmark_frame)
-    plot_optimizers = [name for name in ["magneto_hamiltonian_adam_improved", "magneto_hamiltonian_adam", "adamw", "rmsprop", "sgd_momentum"] if name in set(aggregated["optimizer"])]
+    plot_optimizers = [name for name in ["coherent_momentum_optimizer_improved", "coherent_momentum_optimizer", "adamw", "rmsprop", "sgd_momentum"] if name in set(aggregated["optimizer"])]
     _plot_metric(
         trace_frame,
         output_path=figure_dir / "stress_task_curves.png",
@@ -175,7 +175,7 @@ def export_directional_instability_report(output_dir: str | Path) -> dict[str, A
         title="Gradient-Momentum Cosine",
         metric="grad_momentum_cosine",
         tasks=["oscillatory_valley", "direction_reversal_objective"],
-        optimizers=[name for name in plot_optimizers if "magneto" in name or name in {"adamw", "rmsprop"}],
+        optimizers=[name for name in plot_optimizers if "coherence" in name or name in {"adamw", "rmsprop"}],
     )
     _plot_metric(
         trace_frame,
@@ -183,7 +183,7 @@ def export_directional_instability_report(output_dir: str | Path) -> dict[str, A
         title="Rotation and Conflict Signals",
         metric="rotation_score",
         tasks=["oscillatory_valley", "conflicting_gradient_toy"],
-        optimizers=[name for name in plot_optimizers if "magneto" in name or name in {"adamw", "rmsprop"}],
+        optimizers=[name for name in plot_optimizers if "coherence" in name or name in {"adamw", "rmsprop"}],
     )
     runtime_rows = aggregated[aggregated["optimizer"].isin(plot_optimizers)][["task", "optimizer", "mean_runtime_per_step_ms"]]
     _plot_bar(runtime_rows, figure_dir / "runtime_comparison.png", "Runtime per Step", "task", "mean_runtime_per_step_ms", "optimizer")
@@ -197,15 +197,15 @@ def export_directional_instability_report(output_dir: str | Path) -> dict[str, A
             return subset.sort_values(["mean_best_val_accuracy", "mean_best_val_loss"], ascending=[False, True]).iloc[0]
         return subset.sort_values(["mean_best_val_loss", "mean_runtime_per_step_ms"], ascending=[True, True]).iloc[0]
 
-    cmo_row = _best_row_for("magneto_hamiltonian_adam")
-    improved_row = _best_row_for("magneto_hamiltonian_adam_improved")
+    cmo_row = _best_row_for("coherent_momentum_optimizer")
+    improved_row = _best_row_for("coherent_momentum_optimizer_improved")
     adamw_row = _best_row_for("adamw")
     rmsprop_row = _best_row_for("rmsprop")
     sgdm_row = _best_row_for("sgd_momentum")
 
-    cmo_vs_adamw = compute_meaningful_wins(aggregated, "magneto_hamiltonian_adam_improved", "adamw") if "magneto_hamiltonian_adam_improved" in set(aggregated["optimizer"]) and "adamw" in set(aggregated["optimizer"]) else pd.DataFrame()
-    cmo_vs_rmsprop = compute_meaningful_wins(aggregated, "magneto_hamiltonian_adam_improved", "rmsprop") if "magneto_hamiltonian_adam_improved" in set(aggregated["optimizer"]) and "rmsprop" in set(aggregated["optimizer"]) else pd.DataFrame()
-    cmo_vs_sgdm = compute_meaningful_wins(aggregated, "magneto_hamiltonian_adam_improved", "sgd_momentum") if "magneto_hamiltonian_adam_improved" in set(aggregated["optimizer"]) and "sgd_momentum" in set(aggregated["optimizer"]) else pd.DataFrame()
+    cmo_vs_adamw = compute_meaningful_wins(aggregated, "coherent_momentum_optimizer_improved", "adamw") if "coherent_momentum_optimizer_improved" in set(aggregated["optimizer"]) and "adamw" in set(aggregated["optimizer"]) else pd.DataFrame()
+    cmo_vs_rmsprop = compute_meaningful_wins(aggregated, "coherent_momentum_optimizer_improved", "rmsprop") if "coherent_momentum_optimizer_improved" in set(aggregated["optimizer"]) and "rmsprop" in set(aggregated["optimizer"]) else pd.DataFrame()
+    cmo_vs_sgdm = compute_meaningful_wins(aggregated, "coherent_momentum_optimizer_improved", "sgd_momentum") if "coherent_momentum_optimizer_improved" in set(aggregated["optimizer"]) and "sgd_momentum" in set(aggregated["optimizer"]) else pd.DataFrame()
 
     report_lines = [
         "# Directional Instability Benchmark",

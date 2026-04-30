@@ -7,7 +7,7 @@ All external URLs in this file were checked during the private GitHub preparatio
 ## How To Read This File
 
 - If a document in this repo mentions `SGD`, `RMSProp`, `AdamW`, `Lion`, `Muon`, `SAM`, `PCGrad`, or another named optimizer family, this file is the canonical reference point.
-- If a document discusses an internal comparison baseline such as `HamiltonianAdamReal` or `MagnetoAdam`, this file points back to the local implementation and the nearest external literature that gives the idea context.
+- If a document discusses an internal comparison baseline such as `CoherentMomentumRealBaseline` or `CoherentDirectionReferenceOptimizer`, this file points back to the local implementation and the nearest external literature that gives the idea context.
 - If a baseline is implementation-defined rather than paper-defined, the entry says so directly.
 
 ## Foundational First-Order Baselines
@@ -144,35 +144,30 @@ All external URLs in this file were checked during the private GitHub preparatio
 
 These are part of this repository’s internal comparison surface. They are not presented as outside literature claims.
 
-### HamiltonianAdamReal
+### CoherentMomentumRealBaseline
 
-- Implementation: [src/optimizers/hamiltonian_adam.py](src/optimizers/hamiltonian_adam.py)
+- Implementation: [src/optimizers/coherent_momentum_real_baseline.py](src/optimizers/coherent_momentum_real_baseline.py)
 - Explanation: [docs/REAL_BASELINE.md](docs/REAL_BASELINE.md)
 - Context literature: SGHMC, Symplectic Optimization, and Hamiltonian Descent references above.
 
-### MagnetoAdam
+### CoherentDirectionReferenceOptimizer
 
-- Implementation: [src/optimizers/magneto_adam.py](src/optimizers/magneto_adam.py)
+- Implementation: [src/optimizers/coherent_direction_reference.py](src/optimizers/coherent_direction_reference.py)
 - Why it matters here: it isolates a directional-coherence controller without the full real-Hamiltonian base, making it a useful internal ablation baseline.
 
-### MagnetoHamiltonianAdam
+### CoherentMomentumOptimizer
 
-- Implementation: [src/optimizers/magneto_hamiltonian_adam.py](src/optimizers/magneto_hamiltonian_adam.py)
+- Implementation: [src/optimizers/coherent_momentum_optimizer.py](src/optimizers/coherent_momentum_optimizer.py)
 - Public alias surface: [src/optimizers/coherent_momentum_optimizer.py](src/optimizers/coherent_momentum_optimizer.py)
-- Main accepted report: [reports/accepted_magneto_hamiltonian/final_report.md](reports/accepted_magneto_hamiltonian/final_report.md)
+- Main accepted report: [reports/accepted_coherent_momentum/final_report.md](reports/accepted_coherent_momentum/final_report.md)
 
-### MagnetoHamiltonianAdamImproved
+### CoherentMomentumOptimizerImproved
 
-- Implementation: [src/optimizers/magneto_hamiltonian_adam_improved.py](src/optimizers/magneto_hamiltonian_adam_improved.py)
-- GPU/improved-branch report: [reports/magneto_gpu/final_magneto_gpu_report.md](reports/magneto_gpu/final_magneto_gpu_report.md)
+- Implementation: [src/optimizers/coherent_momentum_optimizer_improved.py](src/optimizers/coherent_momentum_optimizer_improved.py)
+- GPU/improved-branch report: [reports/coherent_momentum_gpu/final_coherent_momentum_gpu_report.md](reports/coherent_momentum_gpu/final_coherent_momentum_gpu_report.md)
 - Why it matters here: it keeps the same conceptual family while testing device-safe control computation, presets, and reduced-diagnostics behavior.
 
 ### TopologicalAdam
 
 - Companion repository baseline: [https://github.com/RRG314/topological-adam](https://github.com/RRG314/topological-adam)
 - Why it matters here: this repo uses Topological Adam as an external comparison baseline in several benchmark/report surfaces. It is a repository baseline rather than a separately cited paper in the current documentation set.
-
-### Blockwise Consensus Direction Optimizer
-
-- Historical local comparison reference: [reports/fast_and_magneto_inventory_report.md](reports/fast_and_magneto_inventory_report.md)
-- Why it matters here: some historical inventory material in this repo compares the coherent-momentum line against a separate blockwise-direction project. That comparison is preserved for internal historical context, not used as an external literature citation.

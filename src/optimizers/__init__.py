@@ -1,24 +1,21 @@
-from .hamiltonian_adam import (
-    HamiltonianAdam,
-    HamiltonianAdamReal,
-    HamiltonianAdamV2,
-    HamiltonianAdamV2RMSPropForce,
+from .coherent_momentum_real_baseline import (
+    CoherentMomentumPhysicalBaseline,
+    CoherentMomentumRealBaseline,
+    CoherentMomentumAdaptiveMassBaseline,
+    CoherentMomentumRMSForceBaseline,
     SymplecticAdam,
 )
-from .coherent_momentum_optimizer import CoherentMomentumOptimizer, CoherentMomentumOptimizerImproved
-from .magneto_adam import MagnetoAdam
-from .magneto_hamiltonian_adam import MagnetoHamiltonianAdam
-from .magneto_hamiltonian_adam_improved import MagnetoHamiltonianAdamImproved
+from .coherent_momentum_optimizer import CoherentMomentumOptimizer
+from .coherent_direction_reference import CoherentDirectionReferenceOptimizer
+from .coherent_momentum_optimizer_improved import CoherentMomentumOptimizerImproved
 
 __all__ = [
     "CoherentMomentumOptimizer",
     "CoherentMomentumOptimizerImproved",
-    "HamiltonianAdam",
-    "HamiltonianAdamReal",
-    "HamiltonianAdamV2",
-    "HamiltonianAdamV2RMSPropForce",
-    "MagnetoAdam",
-    "MagnetoHamiltonianAdam",
-    "MagnetoHamiltonianAdamImproved",
+    "CoherentMomentumPhysicalBaseline",
+    "CoherentMomentumRealBaseline",
+    "CoherentMomentumAdaptiveMassBaseline",
+    "CoherentMomentumRMSForceBaseline",
+    "CoherentDirectionReferenceOptimizer",
     "SymplecticAdam",
 ]

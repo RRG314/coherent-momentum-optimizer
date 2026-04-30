@@ -5,7 +5,7 @@ Optimizer families mentioned below are referenced in [../../REFERENCES.md](../..
 ## Benchmark Scope
 - Tasks run: digits_cnn, digits_cnn_label_noise, digits_cnn_input_noise
 - Skipped tasks: mnist_small_cnn, mnist_deeper_cnn, fashion_mnist_small_cnn, fashion_mnist_deeper_cnn
-- Optimizers: magneto_hamiltonian_adam, magneto_hamiltonian_adam_improved, sgd_momentum, rmsprop, adamw
+- Optimizers: coherent_momentum_optimizer, coherent_momentum_optimizer_improved, sgd_momentum, rmsprop, adamw
 - Skipped optional optimizers: {"schedulefree_adamw": "optional dependency `schedulefree` is not installed"}
 
 ## Best By Task

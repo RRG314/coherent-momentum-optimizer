@@ -1,6 +1,6 @@
 # Modern Baselines
 
-This repository keeps the coherent momentum / Magneto-Hamiltonian family as the public subject of study, but it also needs comparison points that reflect current optimizer practice rather than only older default baselines.
+This repository keeps the coherent momentum / Coherent Momentum family as the public subject of study, but it also needs comparison points that reflect current optimizer practice rather than only older default baselines.
 
 References for every baseline named below are collected in [../REFERENCES.md](../REFERENCES.md).
 

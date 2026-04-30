@@ -58,7 +58,7 @@ class UnifiedPhysicsAdam(PhysicalOptimizerBase, torch.optim.Optimizer):
         weight_decay: float = 0.0,
         eps: float = 1e-8,
         enable_sds: bool = True,
-        enable_magneto: bool = True,
+        enable_coherence: bool = True,
         enable_thermodynamic: bool = True,
         enable_diffusion: bool = False,
         enable_hamiltonian: bool = True,
@@ -114,7 +114,7 @@ class UnifiedPhysicsAdam(PhysicalOptimizerBase, torch.optim.Optimizer):
             weight_decay=weight_decay,
             eps=eps,
             enable_sds=enable_sds,
-            enable_magneto=enable_magneto,
+            enable_coherence=enable_coherence,
             enable_thermodynamic=enable_thermodynamic,
             enable_diffusion=enable_diffusion,
             enable_hamiltonian=enable_hamiltonian,
@@ -429,16 +429,16 @@ class UnifiedPhysicsAdam(PhysicalOptimizerBase, torch.optim.Optimizer):
                     elif controlled_ratio > float(group["outer_horizon"]):
                         horizon_code = 1.0
 
-                magneto_scale = 1.0
-                if bool(group["enable_magneto"]):
-                    magneto_input = 1.0
-                    magneto_input += float(group["alignment_strength"]) * max(0.0, grad_momentum_mix)
-                    magneto_input += float(group["coherence_strength"]) * coherence_mix
-                    magneto_input -= float(group["misalignment_damping"]) * max(0.0, -grad_momentum_mix)
-                    magneto_input -= float(group["rotation_penalty"]) * rotation_mix
+                coherence_scale = 1.0
+                if bool(group["enable_coherence"]):
+                    coherence_input = 1.0
+                    coherence_input += float(group["alignment_strength"]) * max(0.0, grad_momentum_mix)
+                    coherence_input += float(group["coherence_strength"]) * coherence_mix
+                    coherence_input -= float(group["misalignment_damping"]) * max(0.0, -grad_momentum_mix)
+                    coherence_input -= float(group["rotation_penalty"]) * rotation_mix
                     if bool(group["global_mode"]) and not bool(group["layerwise_mode"]):
-                        magneto_input -= 0.5 * float(group["rotation_penalty"]) * max(0.0, -global_metrics["grad_prev_grad_cos"])
-                    magneto_scale = bounded_scale(magneto_input, min_step_scale, max_step_scale)
+                        coherence_input -= 0.5 * float(group["rotation_penalty"]) * max(0.0, -global_metrics["grad_prev_grad_cos"])
+                    coherence_scale = bounded_scale(coherence_input, min_step_scale, max_step_scale)
 
                 thermodynamic_scale = 1.0
                 thermo_cooling = 0.0
@@ -507,8 +507,8 @@ class UnifiedPhysicsAdam(PhysicalOptimizerBase, torch.optim.Optimizer):
                 scale_factors = []
                 if bool(group["enable_sds"]):
                     scale_factors.append(sds_scale)
-                if bool(group["enable_magneto"]):
-                    scale_factors.append(magneto_scale)
+                if bool(group["enable_coherence"]):
+                    scale_factors.append(coherence_scale)
                 if bool(group["enable_thermodynamic"]):
                     scale_factors.append(thermodynamic_scale)
                 if bool(group["enable_hamiltonian"]):
@@ -594,7 +594,7 @@ class UnifiedPhysicsAdam(PhysicalOptimizerBase, torch.optim.Optimizer):
                 diagnostics["reliability_score"].append(reliability_mix)
                 diagnostics["effective_lr_scale"].append(combined_scale)
                 diagnostics["controller_scale_sds"].append(sds_scale if bool(group["enable_sds"]) else 1.0)
-                diagnostics["controller_scale_magneto"].append(magneto_scale if bool(group["enable_magneto"]) else 1.0)
+                diagnostics["controller_scale_coherence"].append(coherence_scale if bool(group["enable_coherence"]) else 1.0)
                 diagnostics["controller_scale_thermodynamic"].append(thermodynamic_scale if bool(group["enable_thermodynamic"]) else 1.0)
                 diagnostics["controller_scale_hamiltonian"].append(hamiltonian_scale if bool(group["enable_hamiltonian"]) else 1.0)
                 diagnostics["controller_scale_uncertainty"].append(uncertainty_scale if bool(group["enable_uncertainty"]) else 1.0)
@@ -646,7 +646,7 @@ class UnifiedPhysicsAdam(PhysicalOptimizerBase, torch.optim.Optimizer):
                 "reliability_score": average(diagnostics["reliability_score"]),
                 "effective_lr_scale": average(diagnostics["effective_lr_scale"]),
                 "controller_scale_sds": average(diagnostics["controller_scale_sds"]),
-                "controller_scale_magneto": average(diagnostics["controller_scale_magneto"]),
+                "controller_scale_coherence": average(diagnostics["controller_scale_coherence"]),
                 "controller_scale_thermodynamic": average(diagnostics["controller_scale_thermodynamic"]),
                 "controller_scale_hamiltonian": average(diagnostics["controller_scale_hamiltonian"]),
                 "controller_scale_uncertainty": average(diagnostics["controller_scale_uncertainty"]),
