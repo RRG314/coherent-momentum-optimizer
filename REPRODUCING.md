@@ -9,6 +9,15 @@ If you are trying to understand what is being compared and why, read these along
 - [docs/FAILURE_CASES.md](docs/FAILURE_CASES.md)
 - [REFERENCES.md](REFERENCES.md)
 
+If you are new to the repo, the shortest useful path is:
+
+1. run the focused tests
+2. run `python scripts/run_coherent_momentum_optimizer_smoke.py`
+3. run the directional-instability benchmark and export
+4. read `reports/directional_instability/final_report.md`
+
+That path shows the narrow public claim first. The accepted historical line and the GPU/improved-branch audit should be read after that, not before.
+
 ## Environment
 
 ```bash

@@ -33,6 +33,12 @@ CMO is different in two ways. First, it keeps a real momentum-plus-mass state ra
 
 This is why the README and reports are careful not to present CMO as a general RMSProp replacement.
 
+## Versus Lion
+
+Lion is a useful modern comparison because it changes update geometry with low state and low overhead. It is still fundamentally a compact first-order directional rule, built around signed momentum behavior rather than explicit reliability diagnostics.
+
+CMO is more expensive and only deserves to exist where that extra cost buys something. The contrast with Lion is therefore practical as well as algorithmic: Lion asks how much useful behavior can be packed into a simple update rule, while CMO asks whether extra directional observables can help when the direction itself becomes unreliable.
+
 ## Versus SGD With Momentum
 
 Momentum already does one important thing that CMO also cares about: it stabilizes direction through time. That makes `SGD+momentum` a serious comparison baseline, not a toy baseline.
@@ -55,11 +61,23 @@ CMO keeps that Hamiltonian base intact and adds a bounded control layer. That la
 
 If `CoherentMomentumOptimizer` beats `CoherentDirectionReferenceOptimizer`, that suggests the coherent controller is benefiting from the real Hamiltonian substrate rather than merely duplicating a softer Adam-like rule.
 
-## Versus SAM, ASAM, and Other Stability-Oriented Methods
+## Versus Muon, Shampoo, and K-FAC
 
-Sharpness-aware methods modify the training objective around a perturbation neighborhood. Conflict-aware methods like `PCGrad` and `CAGrad` modify gradients in explicitly multitask settings. Structure-aware methods like `Muon`, `Shampoo`, and `K-FAC` exploit matrix or curvature structure.
+`Muon`, `Shampoo`, and `K-FAC` matter because they are serious structure-aware baselines. They use matrix structure or approximate curvature to change update geometry.
 
-CMO is not doing any of those things directly. It is still a first-order optimizer family. The distinctive idea is not curvature estimation, neighborhood sharpness, or explicit multitask projection. The distinctive idea is directional reliability control layered onto a real Hamiltonian update.
+CMO is not doing that. It does not estimate a structured inverse, it does not orthogonalize updates the way Muon-style methods do, and it does not try to approximate curvature the way K-FAC does. Its central mechanism is still directional reliability control on top of a Hamiltonian first-order base.
+
+## Versus SAM and ASAM
+
+Sharpness-aware methods modify the training objective around a perturbation neighborhood. That is a different route to stability from what CMO does.
+
+CMO does not perturb the objective and recompute the gradient around that perturbation. It stays in the original objective and tries to judge whether the current direction is coherent enough to trust. That is why the repo treats SAM and ASAM as serious stability baselines, not as close algorithmic relatives.
+
+## Versus PCGrad and CAGrad
+
+Conflict-aware methods like `PCGrad` and `CAGrad` modify gradients in explicitly multitask settings. They matter here because CMO also talks about conflict, but the setting is different.
+
+CMO does not need separate task gradients. It measures instability inside ordinary single-loss training as well as conflict-style settings. That gives it a broader ordinary-training surface than PCGrad or CAGrad, but it also means the comparison has to stay honest: CMO is not a drop-in multitask-gradient surgery method.
 
 ## What Makes It More Than A Rewrite
 

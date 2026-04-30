@@ -18,7 +18,7 @@ On ordinary clean tabular or small neural classification tasks, simpler baseline
 
 ## CNNs
 
-The CNN gap is still open. The current repo results are useful precisely because they do not hide this. The optimizer family can be interesting on instability-driven tasks and still be weak on mainstream convolutional training.
+The CNN gap is still open. The current repo results are useful precisely because they do not hide this. The optimizer family can be interesting on instability-driven tasks and still be weak on mainstream convolutional training. That is why the repo keeps a separate CNN credibility report visible instead of folding the CNN rows into a broader average.
 
 - Likely stronger baselines:
   - `RMSProp`
@@ -47,6 +47,12 @@ On stable smooth problems where the gradient direction is already reliable, the 
   - `RMSProp` or `AdamW` if you want a dependable adaptive baseline
 - Why:
   - the narrow claim here is about unreliable direction, not about every smooth optimization regime
+
+## Runtime And Memory Tradeoffs
+
+The current public line and the improved branch both carry more controller state and more control logic than the simplest baselines. The repo’s GPU audit shows that optimizer-state memory is still modest, but step time is materially higher than `AdamW`, `RMSProp`, or `SGD+momentum`.
+
+That matters because a method can be directionally interesting and still be the wrong practical choice if throughput is the main constraint. If you do not have evidence that directional instability is the bottleneck, the cheaper baselines are usually the better first choice.
 
 ## What To Use Instead
 

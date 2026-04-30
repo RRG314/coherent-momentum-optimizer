@@ -32,11 +32,13 @@ The result is familiar: zig-zagging, repeated reversal, weak momentum accumulati
 
 The focused claim for this repository is documented in [docs/CLAIM.md](docs/CLAIM.md). The benchmark layout follows that claim instead of trying to force a broad “best default optimizer” story.
 
+If you are new to this repo, the shortest useful path is: read [docs/CLAIM.md](docs/CLAIM.md), run the smoke script once, run the directional-instability benchmark once, and then read [reports/directional_instability/final_report.md](reports/directional_instability/final_report.md). That path shows the public claim before the broader historical and GPU audit material.
+
 ## Relation to Existing Optimizers
 
 `SGD` follows the raw gradient direction directly. `SGD+momentum` smooths that direction across time, but it does not explicitly test whether the accumulated direction has become unreliable. `RMSProp` rescales update magnitudes using squared-gradient history. It is strong in many small and noisy tasks, but its main control is magnitude scaling rather than direct direction-quality measurement.
 
-`Adam` and `AdamW` combine momentum with adaptive per-parameter scaling. They are strong general baselines, but they still begin from the gradient direction and transform it. `SAM` and `ASAM` also matter here because they test neighborhood stability, but they do so by perturbing the objective rather than by using gradient/momentum coherence as the central control signal. `PCGrad` and `CAGrad` are important conflict-aware references as well, although they operate in explicit multitask settings rather than ordinary single-loss training.
+`Adam` and `AdamW` combine momentum with adaptive per-parameter scaling. They are strong general baselines, but they still begin from the gradient direction and transform it. `Lion` matters as a compact modern low-state baseline, and `Muon` matters as a structure-aware contrast point when update geometry is changed by matrix operations rather than by directional diagnostics. `SAM` and `ASAM` also matter here because they test neighborhood stability, but they do so by perturbing the objective rather than by using gradient/momentum coherence as the central control signal. `PCGrad` and `CAGrad` are important conflict-aware references as well, although they operate in explicit multitask settings rather than ordinary single-loss training.
 
 `CoherentMomentumOptimizer` sits in a different design space. It explicitly measures directional coherence, conflict, and rotation, then adjusts the step when the direction becomes unstable. The central question is not only “how large should the update be?” but also “is this direction reliable enough to trust?”
 
@@ -96,6 +98,8 @@ The current stable mainline follows this high-level flow:
 10. Track energy drift and related diagnostics.
 
 The improved branch keeps the same broad structure but moves more control computation onto tensors, adds diagnostics throttling, and evaluates safer presets such as `standard_safe`, `stress_specialist`, and `cnn_safe`.
+
+The repo does not present every controller detail as equally established. The directional observables themselves are central to the method. The exact thresholds, projection behavior, and preset choices remain empirical controls that are only kept where the checked-in reports justify them. In the current report set, projection remains useful as a bounded or conflict-only control, while heavy conflict damping and extra activation gating do not earn default status.
 
 The method details live in [docs/METHOD.md](docs/METHOD.md), and the reason the repo keeps `CoherentMomentumRealBaseline` visible is explained in [docs/REAL_BASELINE.md](docs/REAL_BASELINE.md).
 
@@ -307,6 +311,8 @@ From `reports/coherent_momentum_gpu/final_coherent_momentum_gpu_report.md`:
 
 Those wins are concentrated in directional synthetic stress tasks. Broad task-winner counts are still led by `SGD+momentum` and `RMSProp`, the improved branch remains slower than `AdamW`, `RMSProp`, and `SGD+momentum`, and CNN performance is still weak compared with the practical baselines.
 
+From `reports/coherent_momentum_gpu/runtime_memory_results.csv`, the mean runtime per step was `5.1188 ms` for the current public branch, `8.2828 ms` for the improved branch, `1.5732 ms` for `AdamW`, `1.4352 ms` for `RMSProp`, and `1.3887 ms` for `SGD+momentum`. Mean optimizer state stayed modest at `0.0405 MB` for both coherent-momentum branches, but runtime remains the real practical cost.
+
 ### Focused directional-instability proof benchmark
 
 From `reports/directional_instability/final_report.md`:
@@ -326,7 +332,7 @@ Best-by-task snapshot from the current focused proof benchmark:
 - `oscillatory_valley`: `rmsprop`
 - `small_batch_instability`: `sgd_momentum`
 
-The interpretation should stay narrow. The focused proof benchmark does show that the coherent-momentum family can beat `AdamW` on part of the oscillation/reversal slice. It does **not** show broad superiority over `RMSProp` or `SGD+momentum`.
+The interpretation should stay narrow. The focused proof benchmark does show that the coherent-momentum family can beat `AdamW` on part of the oscillation/reversal slice. It does **not** show broad superiority over `RMSProp` or `SGD+momentum`. It is the strongest newcomer-facing proof slice for the repo’s claim because it asks the narrow question directly instead of averaging that question back into a broader historical suite.
 
 ### CNN credibility benchmark
 
@@ -352,6 +358,8 @@ The most defensible claim is:
 > Coherent Momentum is a specialist optimizer for unstable gradient-direction regimes, with evidence of improvement over AdamW in selected instability slices and stronger internal performance in focused stress runs.
 
 The current evidence does not support a universal optimizer claim, a general CNN optimizer claim, a broad state-of-the-art claim, or a replacement claim over `RMSProp` or `SGD+momentum`.
+
+A safe public sentence to repeat from the current repo is: Coherent Momentum is a specialist optimizer for unstable gradient-direction regimes, with evidence of improvement over AdamW on selected instability slices, but not a general replacement for RMSProp, SGD with momentum, or AdamW.
 
 ## Reports and Outputs
 

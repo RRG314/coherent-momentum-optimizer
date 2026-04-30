@@ -40,3 +40,11 @@ The intended interpretation is narrower:
 - treat ordinary clean tasks and CNN-heavy tasks as failure checks, not as assumed win conditions
 
 If the optimizer fails those failure checks, the repo should say so directly rather than treating the checks as optional.
+
+## Safe Public Wording
+
+The safest short public sentence the current repository supports is:
+
+> Coherent Momentum is a specialist optimizer for unstable gradient-direction regimes, with evidence of improvement over AdamW on selected instability slices, but not as a general replacement for RMSProp, SGD with momentum, or AdamW.
+
+Anything broader than that requires stronger evidence than the current checked-in reports provide.

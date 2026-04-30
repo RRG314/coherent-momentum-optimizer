@@ -44,7 +44,8 @@ This is the reference report for the real Hamiltonian baseline used throughout t
 
 - `reports/repo_readiness_audit.md`
 - `reports/complete_repo_inventory.md`
+- `reports/complete_system_inventory_and_results.md`
 
-These documents describe clone-and-run readiness and the current repository contents.
+These documents describe clone-and-run readiness, the current repository contents, and the combined system-plus-results view of the repo.
 
 The current documentation-hardening change log is in `reports/repo_update_report.md`.
