@@ -49,6 +49,35 @@ In the current stable implementation, those directional signals are used to prod
 
 Those controls are clamped to limited ranges. That design choice matters. It means the branch is trying to correct an unreliable direction without letting the controller fully replace the base optimizer geometry.
 
+## Update rule in practical terms
+
+The repo does not claim a closed-form theorem for the full method, but the stable branch can still be described as an explicit update recipe.
+
+Let `theta_t` be the parameters, `p_t` the Hamiltonian momentum state, `M_t^{-1}` the inverse mass, `g_t` the current gradient, and `f_t = M_t^{-1} p_t` the current force-like direction used by the real baseline. The real baseline produces a provisional step `u_t` from its Hamiltonian update, friction, and optional energy correction.
+
+The coherence layer then measures:
+
+- `c_t^{gm} = cos(g_t, p_t)`
+- `c_t^{fm} = cos(f_t, p_t)`
+- `c_t^{gg} = cos(g_t, g_{t-1})`
+- `c_t^{uu} = cos(u_t, u_{t-1})`
+- a rotation score derived from disagreement across these directions
+- a conflict score derived from directional opposition and instability
+
+Those observables drive bounded control values:
+
+- friction multiplier `lambda_t`
+- alignment scale `a_t`
+- optional projection weight `pi_t`
+
+The effective step remains a bounded modification of the baseline step rather than a new unconstrained direction:
+
+`u_t^* = a_t * u_t + pi_t * (f_t - u_t)`
+
+`theta_{t+1} = theta_t - eta_t * u_t^*`
+
+where `a_t`, `pi_t`, and the effective damping change only inside limited ranges. When the method behaves well, it therefore behaves like a controlled Hamiltonian first-order optimizer, not like a fully rewritten adaptive rule.
+
 ## Improved Branch
 
 `CoherentMomentumOptimizerImproved` keeps the same conceptual structure but changes how the controller is executed.

@@ -23,6 +23,23 @@ The repository currently exposes that claim in two layers:
 
 That distinction matters. The default benchmark path is meant to be reproducible by a newcomer cloning the repo, while the wider task registry remains available for heavier follow-up work.
 
+## What the current evidence supports
+
+The checked-in reports support a specialist claim. The accepted historical line shows that the stable Coherent Momentum branch can beat its real Hamiltonian baseline, can beat the lighter directional reference branch, and can beat AdamW on selected stress-oriented slices. The focused newcomer-facing directional benchmark supports a narrower follow-up claim: the improved branch can still beat AdamW on parts of the oscillation and reversal slice.
+
+The GPU and improved-branch audit supports a separate engineering claim. It shows that the optimizer can be made device-safe, that diagnostics can be throttled without breaking the core method, and that the improved branch can win more directional synthetic stress comparisons than the stable branch. It does not turn the improved branch into the new public default automatically.
+
+## What the current evidence does not support
+
+The checked-in reports do **not** support claiming that Coherent Momentum is:
+
+- a universal replacement for AdamW
+- a universal replacement for RMSProp
+- a universal replacement for SGD with momentum
+- a strong general CNN optimizer yet
+- a broad state-of-the-art optimizer claim
+- a proof that every controller term in the improved branch deserves default status
+
 ## What This Optimizer Is Not
 
 This repository does **not** claim that Coherent Momentum Optimizer is:
@@ -40,6 +57,10 @@ The intended interpretation is narrower:
 - treat ordinary clean tasks and CNN-heavy tasks as failure checks, not as assumed win conditions
 
 If the optimizer fails those failure checks, the repo should say so directly rather than treating the checks as optional.
+
+## What would be unfair to claim
+
+It would be unfair to claim that the improved branch is already the public default, that the CNN problem is solved, or that the repository shows broad superiority over RMSProp or SGD with momentum. Those claims would go past the checked-in evidence.
 
 ## Safe Public Wording
 

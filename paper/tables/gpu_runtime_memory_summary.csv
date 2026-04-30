@@ -1,0 +1,10 @@
+optimizer,mean_runtime_per_step_ms,mean_optimizer_step_time_ms,mean_samples_per_second,mean_optimizer_state_mb,mean_peak_device_memory_mb,divergence_rate,source_csv
+topological_adam,0.7872635335233955,0.4888657921841028,2637.7672026651658,0.0045299530029296875,,0.0,reports/coherent_momentum_gpu/runtime_memory_results.csv
+sgd_momentum,1.3887398318224884,0.06999027252284563,12238.389009945518,0.006753285725911437,,0.06666666666666667,reports/coherent_momentum_gpu/runtime_memory_results.csv
+rmsprop,1.4352039911238679,0.11468452790852712,11464.409748529235,0.006768798828124968,,0.0,reports/coherent_momentum_gpu/runtime_memory_results.csv
+adamw,1.573228718083361,0.2299161461413958,10027.515383607908,0.013522084554036458,,0.0,reports/coherent_momentum_gpu/runtime_memory_results.csv
+adam,1.7024859320965093,0.18504413175620488,7131.907374306201,0.009271448308771307,,0.0,reports/coherent_momentum_gpu/runtime_memory_results.csv
+coherent_direction_reference,1.9195344101275578,1.0713463509167573,4531.690247082875,0.022581834059495192,,0.0,reports/coherent_momentum_gpu/runtime_memory_results.csv
+coherent_momentum_real_baseline,4.436639290935568,3.0581138757624777,3045.8465976899383,0.03376642862955727,,0.0,reports/coherent_momentum_gpu/runtime_memory_results.csv
+coherent_momentum_optimizer,5.118775474665589,3.7363780828592605,2577.996371521512,0.040519714355468736,,0.0,reports/coherent_momentum_gpu/runtime_memory_results.csv
+coherent_momentum_optimizer_improved,8.282787156962895,6.890571710939966,1540.6627677350302,0.040519714355468736,,0.0,reports/coherent_momentum_gpu/runtime_memory_results.csv

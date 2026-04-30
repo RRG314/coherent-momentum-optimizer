@@ -103,6 +103,11 @@ The focused proof and credibility scripts are:
 - [../scripts/run_cnn_credibility_benchmark.py](../scripts/run_cnn_credibility_benchmark.py)
 - [../scripts/export_cnn_credibility_report.py](../scripts/export_cnn_credibility_report.py)
 
+The paper-facing helper scripts are:
+
+- [../scripts/build_paper_artifacts.py](../scripts/build_paper_artifacts.py)
+- [../scripts/run_paper_smoke.py](../scripts/run_paper_smoke.py)
+
 The notebook generator is:
 
 - [../scripts/generate_colab_notebook.py](../scripts/generate_colab_notebook.py)
@@ -170,11 +175,16 @@ The top-level package and documentation files that define the repo surface are:
 - [repo_readiness_audit.md](repo_readiness_audit.md)
 - [repo_update_report.md](repo_update_report.md)
 - [complete_repo_inventory.md](complete_repo_inventory.md)
+- [../paper/cmo_draft.md](../paper/cmo_draft.md)
+- [../paper/paper_claims_audit.md](../paper/paper_claims_audit.md)
 
 The notebook and example layer is:
 
 - [../notebooks/coherent_momentum_full_eval.ipynb](../notebooks/coherent_momentum_full_eval.ipynb)
 - [../examples/basic_usage.py](../examples/basic_usage.py)
+- [../examples/cmo_minimal_mlp.py](../examples/cmo_minimal_mlp.py)
+- [../examples/cmo_directional_instability_demo.py](../examples/cmo_directional_instability_demo.py)
+- [../examples/cmo_compare_against_adamw.py](../examples/cmo_compare_against_adamw.py)
 
 The bibliography and external optimizer references are centralized in [../REFERENCES.md](../REFERENCES.md). That file is the canonical reference index for the repository’s discussions of SGD, momentum, RMSProp, AdamW, Lion, Muon, SAM, ASAM, AdaBelief, Schedule-Free AdamW, PCGrad, CAGrad, and the other named external methods that appear in the docs and reports.
 
@@ -188,6 +198,7 @@ The checked-in report families are:
 - [cnn_credibility](cnn_credibility)
 - [demo_directional_instability](demo_directional_instability)
 - [reference_real_baseline](reference_real_baseline)
+- [../paper](../paper)
 - `coherent_momentum_mainline/` and `coherent_momentum_optimizer/` historical smoke/output folders that remain in the repo tree
 - [coherent_momentum_repo_audit](coherent_momentum_repo_audit)
 
@@ -220,11 +231,12 @@ The accepted historical mainline source is [accepted_coherent_momentum](accepted
 
 The accepted mainline summary that still matters publicly is:
 
-- meaningful wins vs `CoherentMomentumRealBaseline`: `13`
-- meaningful wins vs `CoherentDirectionReferenceOptimizer`: `7`
-- meaningful wins vs `AdamW`: `8`
-- meaningful wins vs `RMSProp`: `4`
-- meaningful wins vs `TopologicalAdam`: `8`
+- meaningful wins vs `CoherentMomentumRealBaseline`: `9`
+- meaningful wins vs `CoherentDirectionReferenceOptimizer`: `4`
+- meaningful wins vs `AdamW`: `4`
+- meaningful wins vs `RMSProp`: `3`
+- meaningful wins vs `SGD+momentum`: `3`
+- meaningful wins vs `TopologicalAdam`: `4`
 
 The accepted best-row summary is:
 

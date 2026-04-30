@@ -49,3 +49,5 @@ This is the reference report for the real Hamiltonian baseline used throughout t
 These documents describe clone-and-run readiness, the current repository contents, and the combined system-plus-results view of the repo.
 
 The current documentation-hardening change log is in `reports/repo_update_report.md`.
+
+Paper-facing draft material is generated separately under `paper/`. That folder is built from the checked-in report CSVs and is meant to summarize the evidence in a paper-style format without replacing the underlying report directories.

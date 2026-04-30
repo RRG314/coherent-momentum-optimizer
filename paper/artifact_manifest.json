@@ -1,0 +1,7 @@
+{
+  "claims_audit": "paper/paper_claims_audit.md",
+  "draft": "paper/cmo_draft.md",
+  "figures_dir": "paper/figures",
+  "summary_csv": "paper/paper_results_summary.csv",
+  "tables_dir": "paper/tables"
+}

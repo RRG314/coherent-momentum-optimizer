@@ -13,20 +13,20 @@
 - The current branch also adds activation gating so the coherence controller can stay closer to the physical baseline on ordinary tasks and only fully activate when conflict or rotation rises.
 
 ## 2. Whether it beat the strengthened physical baseline
-- Meaningful wins vs `coherent_momentum_real_baseline`: 13
+- Meaningful wins vs `coherent_momentum_real_baseline`: 9
 
 ## 3. Whether it beat CoherentDirectionReferenceOptimizer alone
-- Meaningful wins vs `coherent_direction_reference`: 7
+- Meaningful wins vs `coherent_direction_reference`: 4
 
 ## 4. Whether it beat AdamW
-- Meaningful wins vs `adamw`: 8
+- Meaningful wins vs `adamw`: 4
 
 ## 5. Whether it beat RMSProp
-- Meaningful wins vs `rmsprop`: 4
-- Tasks where it beat the physical baseline and AdamW while staying competitive with RMSProp: direction_reversal_objective, noisy_quadratic_objective, oscillatory_valley, quadratic_bowl_objective, saddle_objective
+- Meaningful wins vs `rmsprop`: 3
+- Tasks where it beat RMSProp in the checked-in accepted CSV: direction_reversal_objective, oscillatory_valley, saddle_objective
 
 ## 6. Whether it beat Topological Adam
-- Meaningful wins vs `topological_adam`: 8
+- Meaningful wins vs `topological_adam`: 4
 
 ## 7. Energy drift compared to the physical baseline branch
 - Mean relative energy drift on direct energy tests: Real `-0.001439` vs Coherent Momentum `-0.003154`

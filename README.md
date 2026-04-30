@@ -236,6 +236,23 @@ python scripts/run_cnn_credibility_benchmark.py --config configs/cnn_credibility
 python scripts/export_cnn_credibility_report.py
 ```
 
+Minimal local examples:
+
+```bash
+python examples/cmo_minimal_mlp.py
+python examples/cmo_directional_instability_demo.py
+python examples/cmo_compare_against_adamw.py
+```
+
+Paper artifact build:
+
+```bash
+python scripts/build_paper_artifacts.py
+python scripts/run_paper_smoke.py
+```
+
+The paper-facing draft, tables, figures, and claims audit are generated locally under `paper/`. They read only the checked-in report CSVs and do not create missing benchmark results on their own.
+
 ## Colab Notebook
 
 A full Colab-oriented notebook is included at `notebooks/coherent_momentum_full_eval.ipynb`.
@@ -290,13 +307,14 @@ Selected rows from `reports/accepted_coherent_momentum/benchmark_results.csv`:
 | rosenbrock_valley | 0.001829 | - |
 | saddle_objective | -4.107943 | - |
 
-Validated win counts from the accepted mainline report:
+CSV-derived win counts for the accepted historical line:
 
-- vs `coherent_momentum_real_baseline`: `13`
-- vs `coherent_direction_reference`: `7`
-- vs `adamw`: `8`
-- vs `rmsprop`: `4`
-- vs `topological_adam`: `8`
+- vs `coherent_momentum_real_baseline`: `9`
+- vs `coherent_direction_reference`: `4`
+- vs `adamw`: `4`
+- vs `rmsprop`: `3`
+- vs `sgd_momentum`: `3`
+- vs `topological_adam`: `4`
 
 These rows support Coherent Momentum as a useful custom specialist branch, but not as a broad default optimizer.
 

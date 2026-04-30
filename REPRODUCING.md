@@ -8,6 +8,7 @@ If you are trying to understand what is being compared and why, read these along
 - [docs/COMPARISONS.md](docs/COMPARISONS.md)
 - [docs/FAILURE_CASES.md](docs/FAILURE_CASES.md)
 - [REFERENCES.md](REFERENCES.md)
+- [paper/paper_claims_audit.md](paper/paper_claims_audit.md) after building paper artifacts
 
 If you are new to the repo, the shortest useful path is:
 
@@ -17,6 +18,13 @@ If you are new to the repo, the shortest useful path is:
 4. read `reports/directional_instability/final_report.md`
 
 That path shows the narrow public claim first. The accepted historical line and the GPU/improved-branch audit should be read after that, not before.
+
+If you are reviewing the repo as a draft paper package rather than only as code, the shortest useful follow-up path is:
+
+1. run `python scripts/build_paper_artifacts.py`
+2. read `paper/paper_claims_audit.md`
+3. read `paper/cmo_draft.md`
+4. inspect `paper/tables/` and `paper/figures/`
 
 ## Environment
 
@@ -50,6 +58,14 @@ pytest tests/test_coherent_momentum_gpu_compatibility.py -q
 pytest tests/test_coherent_momentum_benchmark_outputs.py -q
 ```
 
+Run the minimal local examples:
+
+```bash
+python examples/cmo_minimal_mlp.py
+python examples/cmo_directional_instability_demo.py
+python examples/cmo_compare_against_adamw.py
+```
+
 ## Focused claim reproduction
 
 Directional instability benchmark:
@@ -70,6 +86,13 @@ Directional demo:
 
 ```bash
 python scripts/demo_directional_instability.py
+```
+
+Paper artifact build:
+
+```bash
+python scripts/build_paper_artifacts.py
+python scripts/run_paper_smoke.py
 ```
 
 ## Mainline optimizer reproduction
@@ -117,6 +140,9 @@ python scripts/export_coherent_momentum_gpu_report.py
 - Focused claim benchmark: `reports/directional_instability/`
 - CNN credibility benchmark: `reports/cnn_credibility/`
 - Directional demo: `reports/demo_directional_instability/`
+- Paper draft and paper-facing tables and figures: `paper/`
+- Paper figures: `paper/figures/`
+- Paper tables: `paper/tables/`
 - Real Hamiltonian reference run: `reports/reference_real_baseline/`
 - Repo readiness audit: `reports/repo_readiness_audit.md`
 - Repo update report: `reports/repo_update_report.md`
@@ -132,3 +158,4 @@ python scripts/export_coherent_momentum_gpu_report.py
 - GPU compatibility is exercised on available accelerator hardware, but CPU is the reference platform for the benchmark claims currently stored in this repository.
 - The newcomer-facing directional-instability config is intentionally lighter than a full paper-scale sweep. Increase the seed count and task list if you want a deeper audit.
 - The accepted historical mainline report source remains `reports/accepted_coherent_momentum/`. The newer focused proof and GPU reports are complementary, not replacements for that accepted historical line.
+- The paper build script only reads checked-in local CSVs and report artifacts. It does not invent missing results or silently rerun expensive suites.

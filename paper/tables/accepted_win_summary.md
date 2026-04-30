@@ -1,0 +1,15 @@
+# Accepted Win Summary
+
+Meaningful win counts for the accepted historical line, computed from the checked-in benchmark CSV.
+
+Source CSVs:
+- `reports/accepted_coherent_momentum/benchmark_results.csv`
+
+| benchmark_group | optimizer | baseline | meaningful_wins | two_x_wins | source_csv |
+| --- | --- | --- | --- | --- | --- |
+| accepted_historical | coherent_momentum_optimizer | coherent_momentum_real_baseline | 9 | 1 | reports/accepted_coherent_momentum/benchmark_results.csv |
+| accepted_historical | coherent_momentum_optimizer | coherent_direction_reference | 4 | 2 | reports/accepted_coherent_momentum/benchmark_results.csv |
+| accepted_historical | coherent_momentum_optimizer | adamw | 4 | 2 | reports/accepted_coherent_momentum/benchmark_results.csv |
+| accepted_historical | coherent_momentum_optimizer | rmsprop | 3 | 0 | reports/accepted_coherent_momentum/benchmark_results.csv |
+| accepted_historical | coherent_momentum_optimizer | sgd_momentum | 3 | 0 | reports/accepted_coherent_momentum/benchmark_results.csv |
+| accepted_historical | coherent_momentum_optimizer | topological_adam | 4 | 2 | reports/accepted_coherent_momentum/benchmark_results.csv |
