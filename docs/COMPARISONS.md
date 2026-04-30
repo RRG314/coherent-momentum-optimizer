@@ -1,0 +1,73 @@
+# Comparison Notes
+
+This document explains what Coherent Momentum Optimizer is relative to the baseline families used throughout the repo. It is meant to answer the question “is this actually a different optimizer idea, or just another rewrite of AdamW?”
+
+References for every optimizer family mentioned below are collected in [../REFERENCES.md](../REFERENCES.md).
+
+## The Short Version
+
+Coherent Momentum Optimizer is not defined by a new second-moment estimator and it is not defined by a matrix preconditioner. Its central move is to monitor whether the current update direction is trustworthy, then intervene only when the direction appears unstable.
+
+That is different from the main baseline families in this repository:
+
+- `SGD` uses the current gradient directly.
+- `SGD+momentum` smooths direction across time.
+- `RMSProp` rescales magnitude using squared-gradient history.
+- `AdamW` combines momentum with adaptive magnitude scaling and decoupled weight decay.
+- `HamiltonianAdamReal` turns the adaptive force into a position-momentum system with mass, friction, and energy bookkeeping.
+- `CoherentMomentumOptimizer` inherits the real Hamiltonian base and then adds bounded directional-coherence control on top of it.
+
+## Versus AdamW
+
+AdamW starts from one adaptive direction and changes its magnitude through the usual first- and second-moment machinery. Its geometry is still fundamentally “take this adaptive direction, then scale it.”
+
+Coherent Momentum Optimizer starts from the same practical reality that AdamW-like forces are useful, but it asks a different question: is the direction itself still reliable? The code monitors gradient-momentum cosine, force-momentum cosine, gradient-history cosine, update-history cosine, rotation, and conflict. Those signals are then used to change damping, alignment scale, and projection strength only when the direction looks unstable.
+
+So the difference is not a new adaptive denominator. The difference is that CMO treats directional reliability as a first-class control signal.
+
+## Versus RMSProp
+
+RMSProp is the strongest “don’t overcomplicate this” baseline in many of the included reports. It rescales updates well, is fast, and often wins broad practical tasks in this repository.
+
+CMO is different in two ways. First, it keeps a real momentum-plus-mass state rather than only a gradient-magnitude history. Second, it adds explicit directional diagnostics. That makes it more expensive. It also means it only deserves to exist when those directional diagnostics help enough to justify the overhead.
+
+This is why the README and reports are careful not to present CMO as a general RMSProp replacement.
+
+## Versus SGD With Momentum
+
+Momentum already does one important thing that CMO also cares about: it stabilizes direction through time. That makes `SGD+momentum` a serious comparison baseline, not a toy baseline.
+
+The difference is that momentum uses the same smoothing mechanism all the time. CMO instead tries to detect when the smoothed direction itself has become unreliable because of reversal, oscillation, or batch conflict. When that happens, it changes the effective dynamics through bounded friction scaling, directional alignment scaling, and optional force projection.
+
+In other words, `SGD+momentum` assumes temporal smoothing is enough. CMO tests whether extra directional control helps when smoothing alone is not enough.
+
+## Versus HamiltonianAdamReal
+
+This comparison matters the most conceptually.
+
+`HamiltonianAdamReal` is the baseline that makes the coherent-momentum story meaningful. It already exposes position-momentum style dynamics, inverse mass, friction, energy correction, and optional leapfrog-style updates. Without that base, the public optimizer would be harder to distinguish from “Adam plus a few gates.”
+
+CMO keeps that Hamiltonian base intact and adds a bounded control layer. That layer is the actual experiment. If CMO cannot beat `HamiltonianAdamReal` in unstable-direction regimes, then the coherence controller is not earning its keep.
+
+## Versus MagnetoAdam
+
+`MagnetoAdam` is an internal repository baseline that isolates directional-coherence control without the full Hamiltonian machinery. It is useful because it tells you whether the repo’s directional signals help on their own or only help once they are attached to the stronger physical base.
+
+If `MagnetoHamiltonianAdam` beats `MagnetoAdam`, that suggests the coherent controller is benefiting from the real Hamiltonian substrate rather than merely duplicating a softer Adam-like rule.
+
+## Versus SAM, ASAM, and Other Stability-Oriented Methods
+
+Sharpness-aware methods modify the training objective around a perturbation neighborhood. Conflict-aware methods like `PCGrad` and `CAGrad` modify gradients in explicitly multitask settings. Structure-aware methods like `Muon`, `Shampoo`, and `K-FAC` exploit matrix or curvature structure.
+
+CMO is not doing any of those things directly. It is still a first-order optimizer family. The distinctive idea is not curvature estimation, neighborhood sharpness, or explicit multitask projection. The distinctive idea is directional reliability control layered onto a real Hamiltonian update.
+
+## What Makes It More Than A Rewrite
+
+The repo should not claim novelty just because it has new parameter names. The serious distinction is narrower and more concrete:
+
+1. The public optimizer retains a real Hamiltonian state with mass, momentum, energy drift, and optional leapfrog-style closure behavior.
+2. It computes explicit directional diagnostics rather than assuming one adaptive direction is always good enough.
+3. It uses bounded control values, not unbounded heuristics, to change friction, alignment, and projection.
+4. It keeps a clearer failure boundary than a generic “better Adam” claim: if direction is already stable, the controller often does not help.
+
+That is a legitimate algorithmic difference. It is also why the repository keeps both the coherent branch and the real Hamiltonian baseline visible side by side.

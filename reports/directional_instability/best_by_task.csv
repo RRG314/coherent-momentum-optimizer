@@ -1,0 +1,4 @@
+task,best_optimizer,task_family,score,mean_best_val_loss,mean_best_val_accuracy
+direction_reversal_objective,sgd,stress,0.0416666641831398,0.0416666641831398,
+oscillatory_valley,rmsprop,stress,0.0159948170185089,0.0159948170185089,
+small_batch_instability,sgd_momentum,stability,0.8765243887901306,0.3997397124767303,0.8765243887901306

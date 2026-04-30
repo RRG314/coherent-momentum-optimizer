@@ -1,0 +1,22 @@
+{
+  "device": "mps",
+  "optimizers": [
+    "magneto_hamiltonian_adam",
+    "magneto_hamiltonian_adam_improved",
+    "sgd",
+    "sgd_momentum",
+    "rmsprop",
+    "adam",
+    "adamw",
+    "real_hamiltonian_adam",
+    "magneto_adam"
+  ],
+  "run_tuning": false,
+  "skipped_optimizers": {},
+  "skipped_tasks": [],
+  "tasks": [
+    "oscillatory_valley",
+    "direction_reversal_objective",
+    "small_batch_instability"
+  ]
+}

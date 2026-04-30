@@ -1,0 +1,5 @@
+optimizer: magneto_hamiltonian_adam_improved
+preset: stress_specialist
+projection_mode: bounded
+enable_step_diagnostics: false
+diagnostics_every_n_steps: 8

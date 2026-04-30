@@ -1,0 +1,16 @@
+task,best_optimizer,task_family,score,mean_best_val_loss,mean_best_val_accuracy
+block_structure_classification,sgd_momentum,structure,0.8463541666666666,0.36557234823703766,0.8463541666666666
+breast_cancer_mlp,rmsprop,neural,0.98828125,0.05673210831203803,0.98828125
+conflicting_batches_classification,sgd_momentum,stress,0.9791666666666666,0.06430049613118166,0.9791666666666666
+digits_cnn,rmsprop,neural,0.9123757084210714,0.2792959672709306,0.9123757084210714
+digits_cnn_input_noise,rmsprop,stress,0.8416785051425298,0.45884086191654205,0.8416785051425298
+digits_cnn_label_noise,rmsprop,stress,0.8664772758881251,0.5984437068303426,0.8664772758881251
+direction_reversal_objective,sgd_momentum,stress,0.0016666674055158999,0.0016666674055158999,
+narrow_valley_objective,sgd_momentum,hamiltonian,3.576398396425106e-15,3.576398396425106e-15,
+noisy_quadratic_objective,sgd_momentum,stress,-0.04873776560028393,-0.04873776560028393,
+oscillatory_valley,sgd_momentum,stress,-0.07113398611545564,-0.07113398611545564,
+plateau_escape_objective,sgd_momentum,stress,-1.0500235557556152,-1.0500235557556152,
+rosenbrock_valley,magneto_hamiltonian_adam_improved,stress,6.047192376475626e-11,6.047192376475626e-11,
+saddle_objective,sgd_momentum,stability,-4.132232189178467,-4.132232189178467,
+small_batch_instability,rmsprop,stability,0.8742378056049347,0.3852984954913457,0.8742378056049347
+wine_mlp,sgd_momentum,neural,0.9851851860682169,0.056278540442387205,0.9851851860682169

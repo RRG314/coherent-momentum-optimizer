@@ -1,0 +1,31 @@
+output_dir: reports/cnn_credibility
+device: auto
+use_tuning_results: false
+run_tuning: false
+search_budget: 1
+search_seed: 2026
+save_traces: false
+seeds: [11]
+tuning_seeds: [11]
+benchmark_tasks:
+  - digits_cnn
+  - digits_cnn_label_noise
+  - digits_cnn_input_noise
+  - mnist_small_cnn
+  - mnist_deeper_cnn
+  - fashion_mnist_small_cnn
+  - fashion_mnist_deeper_cnn
+  - cifar10_subset_small_cnn
+  - cifar10_subset_resnetlike
+tuning_tasks: []
+optimizers:
+  - magneto_hamiltonian_adam
+  - magneto_hamiltonian_adam_improved
+  - sgd_momentum
+  - rmsprop
+  - adamw
+include_optional_modern_baselines: true
+optional_modern_optimizers:
+  - schedulefree_adamw
+tuning_epoch_scale: 0.35
+benchmark_epoch_scale: 0.45

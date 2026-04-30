@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+title: "Magneto-Hamiltonian Adam"
+message: "If you use this optimizer or its benchmark artifacts, please cite the repository and identify the exact mode and baseline comparison."
+type: software
+authors:
+  - family-names: "Reid"
+    given-names: "Steven"
+license: "Proprietary"
+version: "0.1.0"
+date-released: "2026-04-29"
+abstract: >-
+  Research repository for MagnetoHamiltonianAdam and its real Hamiltonian base,
+  with accepted benchmark artifacts, Hamiltonian energy tests, and
+  reproducibility scripts.
+keywords:
+  - optimizer
+  - hamiltonian optimization
+  - symplectic optimization
+  - pytorch
+  - directional coherence

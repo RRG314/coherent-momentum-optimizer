@@ -1,0 +1,23 @@
+MAGNETO-HAMILTONIAN ADAM RESEARCH SOURCE-AVAILABLE LICENSE
+
+Copyright (c) 2026 Steven Reid
+All Rights Reserved.
+
+1. You may read, clone, and evaluate this repository for research review,
+   benchmarking, and internal experimentation.
+
+2. You may not redistribute, sublicense, sell, relicense, or publish derivative
+   software from this repository without prior written permission from the
+   copyright holder.
+
+3. Benchmarks, figures, and documentation may be cited with attribution when
+   referring to this repository as a research artifact. That permission does not
+   grant the right to redistribute the source as a reusable library.
+
+4. Contributions submitted to this repository grant the maintainer a perpetual,
+   worldwide, royalty-free right to use, modify, and incorporate those
+   contributions.
+
+5. THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO MERCHANTABILITY, FITNESS FOR A
+   PARTICULAR PURPOSE, AND NON-INFRINGEMENT.

@@ -1,0 +1,6 @@
+optimizer: magneto_hamiltonian_adam_improved
+preset: cnn_safe
+projection_mode: conflict_only
+conv_safe_mode: true
+enable_step_diagnostics: false
+diagnostics_every_n_steps: 8

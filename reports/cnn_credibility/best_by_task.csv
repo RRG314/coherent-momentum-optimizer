@@ -1,0 +1,4 @@
+task,best_optimizer,task_family,score,mean_best_val_loss,mean_best_val_accuracy
+digits_cnn,rmsprop,neural,0.8741122186183929,0.3899020105600357,0.8741122186183929
+digits_cnn_input_noise,rmsprop,stress,0.8123224377632141,0.5386095568537712,0.8123224377632141
+digits_cnn_label_noise,adamw,stress,0.7130681872367859,1.294501006603241,0.7130681872367859

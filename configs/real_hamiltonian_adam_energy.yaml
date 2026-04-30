@@ -1,0 +1,20 @@
+output_dir: reports/real_hamiltonian_adam
+device: cpu
+seeds: [11, 29, 47]
+energy_epoch_scale: 1.0
+optimizers:
+  - hamiltonian_adam
+  - real_hamiltonian_adam
+  - adam
+  - adamw
+  - rmsprop
+  - sgd_momentum
+  - lion
+  - topological_adam
+energy_tasks:
+  - harmonic_oscillator_objective
+  - quadratic_bowl_objective
+  - rosenbrock_valley
+  - saddle_objective
+  - narrow_valley_objective
+  - noisy_quadratic_objective

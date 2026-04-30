@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "magneto-hamiltonian-adam"
+version = "0.1.0"
+description = "Hamiltonian optimizer family with the Magneto-Hamiltonian directional coherence branch."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Steven Reid" }]
+license = { text = "Research Source-Available License" }
+keywords = ["optimizer", "hamiltonian", "pytorch", "physics-inspired optimization", "research"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: Other/Proprietary License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+  "matplotlib>=3.8",
+  "numpy>=1.26",
+  "pandas>=2.2",
+  "pyyaml>=6.0",
+  "scikit-learn>=1.4",
+  "torch>=2.2",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "pytest-asyncio>=0.23",
+]
+vision = [
+  "torchvision>=0.17",
+]
+modern-baselines = [
+  "schedulefree>=1.4",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["optimizers*", "optimizer_research*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+asyncio_mode = "auto"

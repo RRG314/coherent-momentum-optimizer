@@ -1,0 +1,25 @@
+{
+  "device": "mps",
+  "optimizers": [
+    "magneto_hamiltonian_adam",
+    "magneto_hamiltonian_adam_improved",
+    "sgd_momentum",
+    "rmsprop",
+    "adamw"
+  ],
+  "run_tuning": false,
+  "skipped_optimizers": {
+    "schedulefree_adamw": "optional dependency `schedulefree` is not installed"
+  },
+  "skipped_tasks": [
+    "mnist_small_cnn",
+    "mnist_deeper_cnn",
+    "fashion_mnist_small_cnn",
+    "fashion_mnist_deeper_cnn"
+  ],
+  "tasks": [
+    "digits_cnn",
+    "digits_cnn_label_noise",
+    "digits_cnn_input_noise"
+  ]
+}

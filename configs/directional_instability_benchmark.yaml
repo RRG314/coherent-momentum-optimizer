@@ -1,0 +1,28 @@
+output_dir: reports/directional_instability
+device: auto
+use_tuning_results: false
+run_tuning: false
+search_budget: 1
+search_seed: 2026
+save_traces: false
+seeds: [11]
+tuning_seeds: [11]
+benchmark_tasks:
+  - oscillatory_valley
+  - direction_reversal_objective
+  - small_batch_instability
+tuning_tasks: []
+optimizers:
+  - magneto_hamiltonian_adam
+  - magneto_hamiltonian_adam_improved
+  - sgd
+  - sgd_momentum
+  - rmsprop
+  - adam
+  - adamw
+  - real_hamiltonian_adam
+  - magneto_adam
+include_optional_modern_baselines: false
+optional_modern_optimizers: []
+tuning_epoch_scale: 0.4
+benchmark_epoch_scale: 0.3
